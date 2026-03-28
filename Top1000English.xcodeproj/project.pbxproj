@@ -6,17 +6,80 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXFileReference section */
-		70875FE02F4FE7500010559C /* Top1000English.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Top1000English.app; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
+/* Begin PBXBuildFile section */
+		704F3B942F539C6900C87411 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704F3B932F539C6900C87411 /* Assets.xcassets */; };
+		704F3B962F53DEE300C87411 /* MockTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704F3B952F53DEE200C87411 /* MockTabBar.swift */; };
+		705513E52F551FDC005B0488 /* GlassTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705513E42F551FDA005B0488 /* GlassTabBar.swift */; };
+		705513E82F5521F7005B0488 /* ThinProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705513E72F5521F7005B0488 /* ThinProgressBar.swift */; };
+		7068558D2F5124410065A9A5 /* Top1000EnglishApp.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068558C2F51243E0065A9A5 /* Top1000EnglishApp.swift.swift */; };
+		7068558F2F5131DD0065A9A5 /* TrailPreview.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068558E2F5131DD0065A9A5 /* TrailPreview.swift.swift */; };
+		7087603E2F500C7F0010559C /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087602F2F500C7F0010559C /* AnswerButton.swift */; };
+		7087603F2F500C7F0010559C /* StatChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087601A2F500C7F0010559C /* StatChip.swift */; };
+		708760402F500C7F0010559C /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087603B2F500C7F0010559C /* AppStore.swift */; };
+		708760412F500C7F0010559C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760362F500C7F0010559C /* ProfileView.swift */; };
+		708760422F500C7F0010559C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760292F500C7F0010559C /* HomeView.swift */; };
+		708760432F500C7F0010559C /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087601C2F500C7F0010559C /* AppColors.swift */; };
+		708760442F500C7F0010559C /* FeedbackBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760302F500C7F0010559C /* FeedbackBanner.swift */; };
+		708760452F500C7F0010559C /* RandomEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760242F500C7F0010559C /* RandomEngine.swift */; };
+		708760462F500C7F0010559C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760152F500C7F0010559C /* ContentView.swift */; };
+		708760472F500C7F0010559C /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760312F500C7F0010559C /* Metric.swift */; };
+		708760482F500C7F0010559C /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760382F500C7F0010559C /* ReviewView.swift */; };
+		708760492F500C7F0010559C /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760332F500C7F0010559C /* QuestionCard.swift */; };
+		7087604A2F500C7F0010559C /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087601D2F500C7F0010559C /* Haptics.swift */; };
+		7087604B2F500C7F0010559C /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760182F500C7F0010559C /* GlassCard.swift */; };
+		7087604C2F500C7F0010559C /* SectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760192F500C7F0010559C /* SectionTitle.swift */; };
+		7087604D2F500C7F0010559C /* PracticeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760322F500C7F0010559C /* PracticeSessionView.swift */; };
+		7087604E2F500C7F0010559C /* PathNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087602C2F500C7F0010559C /* PathNode.swift */; };
+		7087604F2F500C7F0010559C /* ModePill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087602A2F500C7F0010559C /* ModePill.swift */; };
+		708760502F500C7F0010559C /* ContentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760212F500C7F0010559C /* ContentRepository.swift */; };
+		708760512F500C7F0010559C /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760172F500C7F0010559C /* Badge.swift */; };
+		708760522F500C7F0010559C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760262F500C7F0010559C /* Models.swift */; };
+		708760532F500C7F0010559C /* PathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087602D2F500C7F0010559C /* PathView.swift */; };
+		708760542F500C7F0010559C /* StrongBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087601E2F500C7F0010559C /* StrongBackground.swift */; };
+		708760552F500C7F0010559C /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760342F500C7F0010559C /* ResultsView.swift */; };
+		70A2FFCD2F52251E00675630 /* CleanCard.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */; };
+		70A2FFCF2F52252D00675630 /* LevelRingView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */; };
+		70A2FFD12F52254900675630 /* StreakRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFD02F52254500675630 /* StreakRowView.swift */; };
+		70A2FFD32F5225A300675630 /* RewardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFD22F5225A100675630 /* RewardCardView.swift */; };
+/* End PBXBuildFile section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		70875FE22F4FE7500010559C /* Top1000English */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Top1000English;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
+/* Begin PBXFileReference section */
+		704F3B932F539C6900C87411 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		704F3B952F53DEE200C87411 /* MockTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTabBar.swift; sourceTree = "<group>"; };
+		705513E42F551FDA005B0488 /* GlassTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassTabBar.swift; sourceTree = "<group>"; };
+		705513E72F5521F7005B0488 /* ThinProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinProgressBar.swift; sourceTree = "<group>"; };
+		7068558C2F51243E0065A9A5 /* Top1000EnglishApp.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top1000EnglishApp.swift.swift; sourceTree = "<group>"; };
+		7068558E2F5131DD0065A9A5 /* TrailPreview.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailPreview.swift.swift; sourceTree = "<group>"; };
+		70875FE02F4FE7500010559C /* Top1000English.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Top1000English.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		708760152F500C7F0010559C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		708760172F500C7F0010559C /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		708760182F500C7F0010559C /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
+		708760192F500C7F0010559C /* SectionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitle.swift; sourceTree = "<group>"; };
+		7087601A2F500C7F0010559C /* StatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatChip.swift; sourceTree = "<group>"; };
+		7087601C2F500C7F0010559C /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		7087601D2F500C7F0010559C /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		7087601E2F500C7F0010559C /* StrongBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrongBackground.swift; sourceTree = "<group>"; };
+		708760212F500C7F0010559C /* ContentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepository.swift; sourceTree = "<group>"; };
+		708760242F500C7F0010559C /* RandomEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomEngine.swift; sourceTree = "<group>"; };
+		708760262F500C7F0010559C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		708760292F500C7F0010559C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		7087602A2F500C7F0010559C /* ModePill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePill.swift; sourceTree = "<group>"; };
+		7087602C2F500C7F0010559C /* PathNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathNode.swift; sourceTree = "<group>"; };
+		7087602D2F500C7F0010559C /* PathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathView.swift; sourceTree = "<group>"; };
+		7087602F2F500C7F0010559C /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
+		708760302F500C7F0010559C /* FeedbackBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackBanner.swift; sourceTree = "<group>"; };
+		708760312F500C7F0010559C /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
+		708760322F500C7F0010559C /* PracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionView.swift; sourceTree = "<group>"; };
+		708760332F500C7F0010559C /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
+		708760342F500C7F0010559C /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		708760362F500C7F0010559C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		708760382F500C7F0010559C /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		7087603B2F500C7F0010559C /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanCard.swift.swift; sourceTree = "<group>"; };
+		70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRingView.swift.swift; sourceTree = "<group>"; };
+		70A2FFD02F52254500675630 /* StreakRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRowView.swift; sourceTree = "<group>"; };
+		70A2FFD22F5225A100675630 /* RewardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCardView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		70875FDD2F4FE7500010559C /* Frameworks */ = {
@@ -32,7 +95,8 @@
 		70875FD72F4FE7500010559C = {
 			isa = PBXGroup;
 			children = (
-				70875FE22F4FE7500010559C /* Top1000English */,
+				704F3B932F539C6900C87411 /* Assets.xcassets */,
+				7087603D2F500C7F0010559C /* Top1000EnglishOrganizado */,
 				70875FE12F4FE7500010559C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +107,174 @@
 				70875FE02F4FE7500010559C /* Top1000English.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		708760162F500C7F0010559C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7068558C2F51243E0065A9A5 /* Top1000EnglishApp.swift.swift */,
+				708760152F500C7F0010559C /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7087601B2F500C7F0010559C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				705513E42F551FDA005B0488 /* GlassTabBar.swift */,
+				704F3B952F53DEE200C87411 /* MockTabBar.swift */,
+				70A2FFD22F5225A100675630 /* RewardCardView.swift */,
+				70A2FFD02F52254500675630 /* StreakRowView.swift */,
+				70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */,
+				708760172F500C7F0010559C /* Badge.swift */,
+				708760182F500C7F0010559C /* GlassCard.swift */,
+				708760192F500C7F0010559C /* SectionTitle.swift */,
+				7087601A2F500C7F0010559C /* StatChip.swift */,
+				70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */,
+				705513E72F5521F7005B0488 /* ThinProgressBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7087601F2F500C7F0010559C /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				7087601C2F500C7F0010559C /* AppColors.swift */,
+				7087601D2F500C7F0010559C /* Haptics.swift */,
+				7087601E2F500C7F0010559C /* StrongBackground.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		708760202F500C7F0010559C /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7087601B2F500C7F0010559C /* Components */,
+				7087601F2F500C7F0010559C /* DesignSystem */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		708760222F500C7F0010559C /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				708760212F500C7F0010559C /* ContentRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		708760232F500C7F0010559C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				708760222F500C7F0010559C /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		708760252F500C7F0010559C /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				708760242F500C7F0010559C /* RandomEngine.swift */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		708760272F500C7F0010559C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				708760262F500C7F0010559C /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		708760282F500C7F0010559C /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				708760252F500C7F0010559C /* Engine */,
+				708760272F500C7F0010559C /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		7087602B2F500C7F0010559C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				708760292F500C7F0010559C /* HomeView.swift */,
+				7087602A2F500C7F0010559C /* ModePill.swift */,
+				7068558E2F5131DD0065A9A5 /* TrailPreview.swift.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		7087602E2F500C7F0010559C /* Path */ = {
+			isa = PBXGroup;
+			children = (
+				7087602C2F500C7F0010559C /* PathNode.swift */,
+				7087602D2F500C7F0010559C /* PathView.swift */,
+			);
+			path = Path;
+			sourceTree = "<group>";
+		};
+		708760352F500C7F0010559C /* Practice */ = {
+			isa = PBXGroup;
+			children = (
+				7087602F2F500C7F0010559C /* AnswerButton.swift */,
+				708760302F500C7F0010559C /* FeedbackBanner.swift */,
+				708760312F500C7F0010559C /* Metric.swift */,
+				708760322F500C7F0010559C /* PracticeSessionView.swift */,
+				708760332F500C7F0010559C /* QuestionCard.swift */,
+				708760342F500C7F0010559C /* ResultsView.swift */,
+			);
+			path = Practice;
+			sourceTree = "<group>";
+		};
+		708760372F500C7F0010559C /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				708760362F500C7F0010559C /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		708760392F500C7F0010559C /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				708760382F500C7F0010559C /* ReviewView.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		7087603A2F500C7F0010559C /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				7087602B2F500C7F0010559C /* Home */,
+				7087602E2F500C7F0010559C /* Path */,
+				708760352F500C7F0010559C /* Practice */,
+				708760372F500C7F0010559C /* Profile */,
+				708760392F500C7F0010559C /* Review */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		7087603C2F500C7F0010559C /* State */ = {
+			isa = PBXGroup;
+			children = (
+				7087603B2F500C7F0010559C /* AppStore.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		7087603D2F500C7F0010559C /* Top1000EnglishOrganizado */ = {
+			isa = PBXGroup;
+			children = (
+				708760162F500C7F0010559C /* App */,
+				708760202F500C7F0010559C /* Core */,
+				708760232F500C7F0010559C /* Data */,
+				708760282F500C7F0010559C /* Domain */,
+				7087603A2F500C7F0010559C /* Features */,
+				7087603C2F500C7F0010559C /* State */,
+			);
+			path = Top1000EnglishOrganizado;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +291,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				70875FE22F4FE7500010559C /* Top1000English */,
 			);
 			name = Top1000English;
 			packageProductDependencies = (
@@ -109,6 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				704F3B942F539C6900C87411 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +349,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7087603E2F500C7F0010559C /* AnswerButton.swift in Sources */,
+				705513E82F5521F7005B0488 /* ThinProgressBar.swift in Sources */,
+				7087603F2F500C7F0010559C /* StatChip.swift in Sources */,
+				708760402F500C7F0010559C /* AppStore.swift in Sources */,
+				708760412F500C7F0010559C /* ProfileView.swift in Sources */,
+				708760422F500C7F0010559C /* HomeView.swift in Sources */,
+				708760432F500C7F0010559C /* AppColors.swift in Sources */,
+				7068558D2F5124410065A9A5 /* Top1000EnglishApp.swift.swift in Sources */,
+				708760442F500C7F0010559C /* FeedbackBanner.swift in Sources */,
+				708760452F500C7F0010559C /* RandomEngine.swift in Sources */,
+				70A2FFD32F5225A300675630 /* RewardCardView.swift in Sources */,
+				708760462F500C7F0010559C /* ContentView.swift in Sources */,
+				708760472F500C7F0010559C /* Metric.swift in Sources */,
+				704F3B962F53DEE300C87411 /* MockTabBar.swift in Sources */,
+				708760482F500C7F0010559C /* ReviewView.swift in Sources */,
+				708760492F500C7F0010559C /* QuestionCard.swift in Sources */,
+				7087604A2F500C7F0010559C /* Haptics.swift in Sources */,
+				7087604B2F500C7F0010559C /* GlassCard.swift in Sources */,
+				7087604C2F500C7F0010559C /* SectionTitle.swift in Sources */,
+				705513E52F551FDC005B0488 /* GlassTabBar.swift in Sources */,
+				7068558F2F5131DD0065A9A5 /* TrailPreview.swift.swift in Sources */,
+				7087604D2F500C7F0010559C /* PracticeSessionView.swift in Sources */,
+				70A2FFCF2F52252D00675630 /* LevelRingView.swift.swift in Sources */,
+				7087604E2F500C7F0010559C /* PathNode.swift in Sources */,
+				7087604F2F500C7F0010559C /* ModePill.swift in Sources */,
+				708760502F500C7F0010559C /* ContentRepository.swift in Sources */,
+				708760512F500C7F0010559C /* Badge.swift in Sources */,
+				70A2FFCD2F52251E00675630 /* CleanCard.swift.swift in Sources */,
+				708760522F500C7F0010559C /* Models.swift in Sources */,
+				708760532F500C7F0010559C /* PathView.swift in Sources */,
+				708760542F500C7F0010559C /* StrongBackground.swift in Sources */,
+				70A2FFD12F52254900675630 /* StreakRowView.swift in Sources */,
+				708760552F500C7F0010559C /* ResultsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +509,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LSZH7SP8XG;
@@ -290,6 +554,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LSZH7SP8XG;

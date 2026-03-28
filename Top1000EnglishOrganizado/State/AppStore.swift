@@ -1,0 +1,270 @@
+import Combine
+import Foundation
+
+final class AppStore: ObservableObject {
+    @Published var user: UserState {
+        didSet {
+            guard !isLoading else { return }
+            persistUser()
+        }
+    }
+
+    @Published var content = ContentRepository()
+    @Published var reviewPool: [ReviewItem] = []
+
+    var selectedPracticeMode: PracticeMode {
+        get {
+            PracticeMode(rawValue: user.selectedPracticeModeRawValue) ?? .words
+        }
+        set {
+            user.selectedPracticeModeRawValue = newValue.rawValue
+        }
+    }
+
+    private let storageKey = "top1000_user_state_v1"
+    private let calendar = Calendar.current
+    private var isLoading = false
+
+    // DateFormatter cache (evita custo repetido)
+    private lazy var dayFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.calendar = calendar
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }()
+
+    init() {
+        self.user = UserState()
+        isLoading = true
+        loadUser()
+        refreshDailyIfNeeded()
+        isLoading = false
+    }
+
+    // MARK: - Review
+
+    func addReview(_ item: ReviewItem) {
+        if !reviewPool.contains(where: { $0.key == item.key }) {
+            reviewPool.insert(item, at: 0)
+        }
+        if reviewPool.count > 50 { reviewPool = Array(reviewPool.prefix(50)) }
+    }
+
+    // MARK: - Missão diária (UX)
+
+    var dailyMissionStepsDone: Int {
+        var n = 0
+        if user.dailyWordsProgress >= 10 { n += 1 }
+        if user.dailyPhrasesProgress >= 10 { n += 1 }
+        if user.dailyScenarioProgress >= 10 { n += 1 }
+        return n
+    }
+
+    var dailyMissionProgress: Double {
+        Double(dailyMissionStepsDone) / 3.0 // 0.0 ... 1.0
+    }
+
+    var dailyMissionIsComplete: Bool {
+        dailyMissionStepsDone == 3
+    }
+
+    /// Qual etapa vem agora (pra UI decidir o CTA)
+    var nextDailyMissionStage: PracticeMode {
+        if user.dailyWordsProgress < 10 { return .words }
+        if user.dailyPhrasesProgress < 10 { return .phrases }
+        return .scenario
+    }
+
+    // MARK: - Meta semanal (bolinhas)
+
+    /// Retorna 7 valores (0.0 a 1.0) do progresso por dia na semana atual.
+    func weeklyDots() -> [Double] {
+        let start = startOfWeek(Date())
+        return (0..<7).map { offset in
+            let day = calendar.date(byAdding: .day, value: offset, to: start)!
+            let key = dayKey(day)
+            return clamp01(user.weeklyProgress[key] ?? 0.0)
+        }
+    }
+
+    // MARK: - Session Commit (XP + coins + streak + level)
+
+    /// Mantém compatibilidade com o que você já chama hoje.
+    func completeSession(xpGained: Int, correctRate: Double) {
+        refreshDailyIfNeeded()
+        applyStreakIfNeeded()
+
+        // XP
+        user.xpTotal += xpGained
+        user.todayXP = min(user.dailyGoalXP, user.todayXP + xpGained)
+
+        // Coins (recompensa + bônus)
+        let baseCoins = max(1, Int(Double(xpGained) * 0.20))
+        var bonus = 0
+        if correctRate >= 0.80 { bonus += 10 }
+        if correctRate >= 1.00 { bonus += 20 }
+        user.coins += (baseCoins + bonus)
+
+        // Level up
+        let newLevel = max(1, user.xpTotal / 250 + 1)
+        if newLevel != user.level {
+            user.level = newLevel
+            Haptics.success()
+        }
+
+        user.lastSessionDay = startOfDay(Date())
+    }
+
+    /// ✅ Novo: complete prática + marca etapa da missão automaticamente
+    func completePractice(mode: PracticeMode, xpGained: Int, correctRate: Double) {
+        completeSession(xpGained: xpGained, correctRate: correctRate)
+
+        updateTodayWeeklyProgress()
+        applyDailyMissionRewardIfCompleted()
+    }
+
+    /// ✅ Quando terminar um cenário (mesmo sem XP), você pode chamar isso.
+    func completeScenarioOnly() {
+        refreshDailyIfNeeded()
+        applyStreakIfNeeded()
+
+        user.dailyScenarioProgress = 10
+
+        updateTodayWeeklyProgress()
+        applyDailyMissionRewardIfCompleted()
+    }
+
+    // MARK: - Daily/Streak Logic
+
+    private func refreshDailyIfNeeded() {
+        let today = startOfDay(Date())
+
+        if user.lastDailyResetDay == nil || user.lastDailyResetDay! != today {
+            // reset XP diário
+            user.todayXP = 0
+
+            // ✅ reset missão do dia
+            user.dailyWordsProgress = 0
+            user.dailyPhrasesProgress = 0
+            user.dailyScenarioProgress = 0
+
+            // ✅ libera bônus de missão do dia novo
+            user.lastMissionRewardKey = nil
+
+            user.lastDailyResetDay = today
+        }
+
+        // garante que o semanal esteja com o dia atualizado
+        updateTodayWeeklyProgress()
+    }
+
+    private func applyStreakIfNeeded() {
+        let today = startOfDay(Date())
+        if user.lastStreakDay == today { return }
+
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+
+        if let last = user.lastStreakDay {
+            user.streak = (last == yesterday) ? (user.streak + 1) : 1
+        } else {
+            user.streak = 1
+        }
+
+        user.lastStreakDay = today
+    }
+
+    // MARK: - Regras de recompensa da missão (gameficado)
+
+    private func applyDailyMissionRewardIfCompleted() {
+        guard dailyMissionIsComplete else { return }
+
+        let todayKey = dayKey(Date())
+
+        // paga 1x por dia
+        if user.lastMissionRewardKey == todayKey { return }
+
+        // ✅ bônus maneiro de missão completa
+        user.coins += 25
+        user.xpTotal += 30
+        user.todayXP = min(user.dailyGoalXP, user.todayXP + 30)
+
+        // marca pagamento
+        user.lastMissionRewardKey = todayKey
+
+        // atualiza % semanal pra garantir 100%
+        user.weeklyProgress[todayKey] = 1.0
+
+        Haptics.success()
+    }
+
+    // MARK: - Weekly persistence
+
+    private func updateTodayWeeklyProgress() {
+        let key = dayKey(Date())
+        user.weeklyProgress[key] = dailyMissionProgress
+    }
+
+    // MARK: - Date helpers
+
+    private func startOfDay(_ date: Date) -> Date {
+        calendar.startOfDay(for: date)
+    }
+
+    private func startOfWeek(_ date: Date) -> Date {
+        let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        return calendar.date(from: comps) ?? startOfDay(date)
+    }
+
+    private func dayKey(_ date: Date) -> String {
+        dayFormatter.string(from: startOfDay(date))
+    }
+
+    private func clamp01(_ v: Double) -> Double {
+        max(0, min(1, v))
+    }
+
+    // MARK: - Persistence
+
+    private func persistUser() {
+        do {
+            let data = try JSONEncoder().encode(user)
+            UserDefaults.standard.set(data, forKey: storageKey)
+        } catch {
+            // silencioso no MVP
+        }
+    }
+
+    private func loadUser() {
+        guard
+            let data = UserDefaults.standard.data(forKey: storageKey),
+            let saved = try? JSONDecoder().decode(UserState.self, from: data)
+        else { return }
+
+        user = saved
+    }
+    
+    func progress(for mode: PracticeMode) -> Int {
+        switch mode {
+        case .words:
+            return user.dailyWordsProgress
+        case .phrases:
+            return user.dailyPhrasesProgress
+        case .scenario:
+            return user.dailyScenarioProgress
+        }
+    }
+    
+    func setProgress(for mode: PracticeMode, value: Int) {
+        let safeValue = max(0, min(10, value))
+
+        switch mode {
+        case .words:
+            user.dailyWordsProgress = safeValue
+        case .phrases:
+            user.dailyPhrasesProgress = safeValue
+        case .scenario:
+            user.dailyScenarioProgress = safeValue
+        }
+    }
+}

@@ -1,8 +1,8 @@
 //
-//  Top1000EnglishApp.swift
+//  Top1000EnglishApp.swift.swift
 //  Top1000English
 //
-//  Created by Fernando Franco on 25/02/26.
+//  Created by Fernando Franco on 26/02/26.
 //
 
 import SwiftUI
