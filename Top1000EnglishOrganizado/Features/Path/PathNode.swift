@@ -1,58 +1,105 @@
 import SwiftUI
 
-struct PathNode: View {
-    let index: Int
+struct PathNodeData: Identifiable {
+    let id: Int
+    let lessonNumber: Int
+    let chapter: String
+    let chapterColor: [Color]
+    let emoji: String
+    let isCompleted: Bool
+    let isActive: Bool     // próxima a ser feita
     let isLocked: Bool
+}
+
+struct PathNodeView: View {
+    let node: PathNodeData
     let onTap: () -> Void
 
-    @State private var hover = false
+    @State private var bouncing = false
+    @State private var glowing  = false
+
+    private let nodeSize: CGFloat = 76
 
     var body: some View {
         Button(action: onTap) {
-            HStack {
-                if index % 2 == 0 { Spacer() }
-
-                VStack(spacing: 8) {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                isLocked
-                                ? AnyShapeStyle(Color.gray.opacity(0.18))
-                                : AnyShapeStyle(
-                                    LinearGradient(
-                                        colors: [AppColors.brandGreen, AppColors.brandBlue],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
+            ZStack {
+                // Glow externo quando ativo
+                if node.isActive {
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [(node.chapterColor.first ?? AppColors.brandGreen).opacity(glowing ? 0.35 : 0.18), .clear],
+                                center: .center,
+                                startRadius: nodeSize * 0.4,
+                                endRadius: nodeSize * 0.9
                             )
-                            .frame(width: 72, height: 72)
-                            .overlay(Circle().stroke(Color.white.opacity(0.18), lineWidth: 1))
-                            .shadow(
-                                color: isLocked ? .clear : AppColors.brandGreen.opacity(0.30),
-                                radius: hover ? 22 : 12,
-                                x: 0,
-                                y: 12
-                            )
-                            .scaleEffect(hover ? 1.03 : 1.0)
-                            .animation(.spring(response: 0.35, dampingFraction: 0.70), value: hover)
-
-                        Image(systemName: isLocked ? "lock.fill" : "star.fill")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(isLocked ? .secondary : .white)
-                    }
-
-                    Text(isLocked ? "Bloqueado" : "Lição \(index)")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        )
+                        .frame(width: nodeSize * 1.8, height: nodeSize * 1.8)
                 }
 
-                if index % 2 != 0 { Spacer() }
+                // Anel externo
+                Circle()
+                    .stroke(
+                        node.isLocked
+                        ? Color.gray.opacity(0.20)
+                        : LinearGradient(
+                            colors: node.isCompleted
+                                ? [AppColors.brandGreen, Color(red: 0.00, green: 0.72, blue: 0.72)]
+                                : node.chapterColor,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: node.isActive ? 4 : 2
+                    )
+                    .frame(width: nodeSize + 8, height: nodeSize + 8)
+                    .opacity(node.isLocked ? 0.3 : 1.0)
+
+                // Círculo principal
+                Circle()
+                    .fill(
+                        node.isLocked
+                        ? AnyShapeStyle(Color(.systemFill))
+                        : node.isCompleted
+                            ? AnyShapeStyle(LinearGradient(
+                                colors: [AppColors.brandGreen, Color(red: 0.00, green: 0.72, blue: 0.72)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing))
+                            : AnyShapeStyle(LinearGradient(
+                                colors: node.chapterColor,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing))
+                    )
+                    .frame(width: nodeSize, height: nodeSize)
+                    .shadow(
+                        color: node.isLocked ? .clear : (node.chapterColor.first ?? AppColors.brandGreen).opacity(0.40),
+                        radius: node.isActive ? (glowing ? 20 : 12) : 10,
+                        x: 0, y: 8
+                    )
+
+                // Ícone
+                if node.isLocked {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundStyle(Color.secondary.opacity(0.45))
+                } else if node.isCompleted {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 24, weight: .heavy))
+                        .foregroundStyle(.white)
+                } else {
+                    Text(node.emoji)
+                        .font(.system(size: 28))
+                }
             }
         }
         .buttonStyle(.plain)
-        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
-            hover = pressing
-        }, perform: {})
+        .scaleEffect(bouncing ? 1.04 : 1.0)
+        .onAppear {
+            if node.isActive {
+                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
+                    bouncing = true
+                    glowing  = true
+                }
+            }
+        }
     }
 }
