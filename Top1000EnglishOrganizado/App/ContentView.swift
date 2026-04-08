@@ -19,10 +19,6 @@ struct ContentView: View {
                     .environmentObject(app)
                     .tag(AppTab.path)
 
-                ReviewView()
-                    .environmentObject(app)
-                    .tag(AppTab.review)
-
                 ProfileView()
                     .environmentObject(app)
                     .tag(AppTab.profile)

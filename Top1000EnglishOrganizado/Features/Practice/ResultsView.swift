@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ResultsView: View {
     @EnvironmentObject private var app: AppStore
-    @Environment(\.dismiss) private var dismiss
 
     let mode: PracticeMode
     let correctCount: Int
@@ -91,9 +90,10 @@ struct ResultsView: View {
             }
 
             VStack(spacing: 6) {
-                Text("Desafio concluído")
+                Text(headerTitle)
                     .font(.system(size: 28, weight: .heavy))
                     .foregroundStyle(.primary)
+                    .multilineTextAlignment(.center)
 
                 Text(subtitleText)
                     .font(.system(size: 15, weight: .semibold))
@@ -125,8 +125,8 @@ struct ResultsView: View {
 
             HStack(spacing: 12) {
                 metricCard(
-                    title: "Precisão",
-                    value: "\(accuracy)%",
+                    title: "Acertos",
+                    value: "\(correctCount)/\(total)",
                     tint: AppColors.brandBlue
                 )
 
@@ -142,6 +142,17 @@ struct ResultsView: View {
                     tint: AppColors.brandOrange
                 )
             }
+
+            ThinProgressBar(
+                value: correctRate,
+                height: 8,
+                trackOpacity: 0.08,
+                fill: AppColors.brandBlue
+            )
+
+            Text("Precisão final: \(accuracy)%")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(.secondary)
         }
         .padding(18)
         .background(
@@ -162,8 +173,10 @@ struct ResultsView: View {
                 .foregroundStyle(.secondary)
 
             Text(value)
-                .font(.system(size: 26, weight: .heavy))
+                .font(.system(size: 24, weight: .heavy))
                 .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
         }
         .frame(maxWidth: .infinity, minHeight: 104, alignment: .topLeading)
         .padding(14)
@@ -235,7 +248,6 @@ struct ResultsView: View {
         VStack(spacing: 14) {
             Button {
                 Haptics.success()
-                dismiss()
                 onFinish()
             } label: {
                 HStack(spacing: 10) {
@@ -276,15 +288,19 @@ struct ResultsView: View {
 
     // MARK: - Copy
 
+    private var headerTitle: String {
+        "Sessão de \(mode.rawValue) concluída"
+    }
+
     private var subtitleText: String {
         if accuracy == 100 {
-            return "Perfeito. Você acertou tudo e fechou essa rodada com excelência."
+            return "Perfeito. Você acertou \(correctCount) de \(total) e fechou essa rodada com excelência."
         } else if accuracy >= 80 {
-            return "Ótimo resultado. Você está evoluindo muito bem."
+            return "Ótimo resultado. Você acertou \(correctCount) de \(total) e está evoluindo muito bem."
         } else if accuracy >= 60 {
-            return "Bom progresso. Mais algumas rodadas e isso fixa."
+            return "Bom progresso. Você acertou \(correctCount) de \(total). Mais algumas rodadas e isso fixa."
         } else {
-            return "Tudo certo. O importante é continuar praticando."
+            return "Tudo certo. Você acertou \(correctCount) de \(total). O importante é continuar praticando."
         }
     }
 }

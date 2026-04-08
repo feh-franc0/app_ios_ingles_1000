@@ -2,14 +2,13 @@ import SwiftUI
 import UIKit
 
 enum AppTab: String, CaseIterable, Identifiable {
-    case home, path, review, profile
+    case home, path, profile
     var id: String { rawValue }
 
     var title: String {
         switch self {
         case .home: return "Início"
         case .path: return "Trilha"
-        case .review: return "Revisão"
         case .profile: return "Perfil"
         }
     }
@@ -18,7 +17,6 @@ enum AppTab: String, CaseIterable, Identifiable {
         switch self {
         case .home: return "house.fill"
         case .path: return "map.fill"
-        case .review: return "arrow.triangle.2.circlepath"
         case .profile: return "person.fill"
         }
     }

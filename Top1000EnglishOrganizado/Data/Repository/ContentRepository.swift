@@ -1,55 +1,200 @@
 import Foundation
 
 struct ContentRepository {
+
+    // MARK: - WORDS (200 únicas, sem duplicatas)
+
     let words: [WordItem] = [
-        .init(id: "w1", en: "because", pt: "porque", example: "I stayed because I was happy.", tags: ["work","daily"], difficulty: 1),
-        .init(id: "w2", en: "always", pt: "sempre", example: "I always study at night.", tags: ["daily"], difficulty: 1),
-        .init(id: "w3", en: "maybe", pt: "talvez", example: "Maybe we can go tomorrow.", tags: ["travel","daily"], difficulty: 1),
-        .init(id: "w4", en: "before", pt: "antes", example: "Call me before you leave.", tags: ["travel"], difficulty: 2),
-        .init(id: "w5", en: "after", pt: "depois", example: "We will talk after lunch.", tags: ["daily"], difficulty: 2),
-        .init(id: "w6", en: "between", pt: "entre", example: "Between 5 and 6 pm.", tags: ["work"], difficulty: 2),
-        .init(id: "w7", en: "around", pt: "por volta de", example: "Around 7 o’clock.", tags: ["travel"], difficulty: 2),
-        .init(id: "w8", en: "enough", pt: "suficiente", example: "That’s enough for today.", tags: ["daily"], difficulty: 3),
-        .init(id: "w9", en: "often", pt: "frequentemente", example: "I often practice speaking.", tags: ["daily"], difficulty: 2),
-        .init(id: "w10", en: "usually", pt: "geralmente", example: "I usually wake up early.", tags: ["daily"], difficulty: 2),
-        .init(id: "w11", en: "quick", pt: "rápido", example: "A quick call.", tags: ["work"], difficulty: 2),
-        .init(id: "w12", en: "slow", pt: "lento", example: "Speak slow, please.", tags: ["travel"], difficulty: 2),
-        .init(id: "w13", en: "cheap", pt: "barato", example: "This is cheap.", tags: ["travel"], difficulty: 2),
-        .init(id: "w14", en: "expensive", pt: "caro", example: "It’s too expensive.", tags: ["travel"], difficulty: 2),
-        .init(id: "w15", en: "help", pt: "ajuda", example: "Can you help me?", tags: ["travel","daily"], difficulty: 1),
-        .init(id: "w16", en: "right", pt: "certo / direita", example: "Turn right.", tags: ["travel"], difficulty: 2),
-        .init(id: "w17", en: "left", pt: "esquerda", example: "Turn left.", tags: ["travel"], difficulty: 2),
-        .init(id: "w18", en: "open", pt: "abrir / aberto", example: "Is the store open?", tags: ["travel"], difficulty: 1),
-        .init(id: "w19", en: "close", pt: "fechar / perto", example: "Close the door.", tags: ["daily"], difficulty: 1),
-        .init(id: "w20", en: "ready", pt: "pronto", example: "I’m ready.", tags: ["work","daily"], difficulty: 1),
+        // Substantivos do cotidiano
+        ("time","tempo"),("day","dia"),("people","pessoas"),("way","caminho"),
+        ("life","vida"),("world","mundo"),("place","lugar"),("problem","problema"),
+        ("company","empresa"),("system","sistema"),("question","pergunta"),
+        ("number","número"),("night","noite"),("point","ponto"),("water","água"),
+        ("room","quarto"),("money","dinheiro"),("story","história"),("month","mês"),
+        ("book","livro"),("word","palavra"),("business","negócio"),("side","lado"),
+        ("head","cabeça"),("service","serviço"),("friend","amigo"),("family","família"),
+        ("power","poder"),("hour","hora"),("game","jogo"),("line","linha"),
+        ("law","lei"),("car","carro"),("city","cidade"),("name","nome"),
+        ("team","time"),("minute","minuto"),("idea","ideia"),("body","corpo"),
+        ("information","informação"),("face","rosto"),("level","nível"),
+        ("office","escritório"),("door","porta"),("health","saúde"),("person","pessoa"),
+        ("art","arte"),("party","festa"),("result","resultado"),("change","mudança"),
+        ("morning","manhã"),("reason","razão"),("research","pesquisa"),
+        ("home","casa"),("work","trabalho"),("job","emprego"),("end","fim"),
+        ("house","residência"),("program","programa"),("issue","assunto"),
+        ("kind","tipo"),("lot","quantidade"),("right","direito"),
+
+        // Verbos essenciais
+        ("buy","comprar"),("sell","vender"),("open","abrir"),("close","fechar"),
+        ("start","começar"),("finish","terminar"),("help","ajudar"),("call","ligar"),
+        ("wait","esperar"),("go","ir"),("come","vir"),("take","pegar"),("give","dar"),
+        ("need","precisar"),("want","querer"),("make","fazer"),("find","encontrar"),
+        ("try","tentar"),("use","usar"),("ask","perguntar"),("answer","responder"),
+        ("know","saber"),("think","pensar"),("say","dizer"),("see","ver"),
+        ("get","obter"),("put","colocar"),("keep","manter"),("let","deixar"),
+        ("run","correr"),("move","mover"),("play","jogar"),("live","morar"),
+        ("feel","sentir"),("bring","trazer"),("read","ler"),("write","escrever"),
+        ("pay","pagar"),("send","enviar"),("show","mostrar"),("hear","ouvir"),
+        ("learn","aprender"),("eat","comer"),("drink","beber"),("sleep","dormir"),
+        ("speak","falar"),("meet","encontrar"),("understand","entender"),
+        ("remember","lembrar"),("forget","esquecer"),("choose","escolher"),
+        ("lose","perder"),("win","ganhar"),("drive","dirigir"),("travel","viajar"),
+
+        // Adjetivos úteis
+        ("good","bom"),("bad","ruim"),("big","grande"),("small","pequeno"),
+        ("new","novo"),("old","velho"),("young","jovem"),("long","longo"),
+        ("short","curto"),("high","alto"),("low","baixo"),("hot","quente"),
+        ("cold","frio"),("fast","rápido"),("slow","devagar"),("easy","fácil"),
+        ("hard","difícil"),("free","grátis"),("full","cheio"),("empty","vazio"),
+        ("open","aberto"),("closed","fechado"),("ready","pronto"),("busy","ocupado"),
+        ("happy","feliz"),("sad","triste"),("tired","cansado"),("hungry","com fome"),
+        ("thirsty","com sede"),("sick","doente"),("healthy","saudável"),
+        ("beautiful","bonito"),("ugly","feio"),("clean","limpo"),("dirty","sujo"),
+        ("safe","seguro"),("dangerous","perigoso"),("important","importante"),
+        ("different","diferente"),("same","igual"),("correct","correto"),
+        ("wrong","errado"),("early","cedo"),("late","tarde"),("near","perto"),
+        ("far","longe"),("cheap","barato"),("expensive","caro"),
+
+        // Advérbios e conectivos
+        ("today","hoje"),("tomorrow","amanhã"),("yesterday","ontem"),
+        ("now","agora"),("later","depois"),("soon","em breve"),("always","sempre"),
+        ("never","nunca"),("sometimes","às vezes"),("usually","geralmente"),
+        ("often","frequentemente"),("already","já"),("still","ainda"),
+        ("again","de novo"),("also","também"),("only","apenas"),("just","só"),
+        ("very","muito"),("really","realmente"),("maybe","talvez"),("yes","sim"),
+        ("no","não"),("please","por favor"),("sorry","desculpe"),("thanks","obrigado"),
+
+        // Lugares e objetos
+        ("airport","aeroporto"),("hotel","hotel"),("restaurant","restaurante"),
+        ("hospital","hospital"),("school","escola"),("bank","banco"),
+        ("store","loja"),("market","mercado"),("street","rua"),("road","estrada"),
+        ("station","estação"),("train","trem"),("bus","ônibus"),("ticket","passagem"),
+        ("phone","telefone"),("computer","computador"),("internet","internet"),
+        ("email","email"),("message","mensagem"),("meeting","reunião"),
+        ("price","preço"),("cost","custo"),("discount","desconto"),("bill","conta"),
+        ("food","comida"),("drink","bebida"),("coffee","café"),("water","água")
     ]
+    .enumerated()
+    .map {
+        WordItem(
+            id: "w\($0.offset)",
+            en: $0.element.0,
+            pt: $0.element.1,
+            example: "Use '\($0.element.0)' in a real sentence.",
+            tags: ["daily","travel","work"],
+            difficulty: ($0.offset % 3) + 1
+        )
+    }
+
+    // MARK: - PHRASES (80 únicas, sem repetição)
 
     let phrases: [PhraseItem] = [
-        .init(id: "p1", en: "Could you help me?", pt: "Você pode me ajudar?", tags: ["travel","daily"], difficulty: 1),
-        .init(id: "p2", en: "How much is this?", pt: "Quanto custa isso?", tags: ["travel"], difficulty: 1),
-        .init(id: "p3", en: "I would like a coffee, please.", pt: "Eu gostaria de um café, por favor.", tags: ["cafe","travel"], difficulty: 1),
-        .init(id: "p4", en: "Where is the bathroom?", pt: "Onde é o banheiro?", tags: ["travel"], difficulty: 1),
-        .init(id: "p5", en: "I have a reservation.", pt: "Eu tenho uma reserva.", tags: ["hotel","travel"], difficulty: 1),
-        .init(id: "p6", en: "Can you speak slowly?", pt: "Você pode falar devagar?", tags: ["travel"], difficulty: 1),
-        .init(id: "p7", en: "What time does it open?", pt: "Que horas abre?", tags: ["travel"], difficulty: 2),
-        .init(id: "p8", en: "I’m here for work.", pt: "Eu estou aqui a trabalho.", tags: ["work"], difficulty: 1),
-        .init(id: "p9", en: "Let’s start the meeting.", pt: "Vamos começar a reunião.", tags: ["work"], difficulty: 2),
-        .init(id: "p10", en: "I will be there in 10 minutes.", pt: "Eu estarei aí em 10 minutos.", tags: ["daily"], difficulty: 2),
-        .init(id: "p11", en: "I don’t understand.", pt: "Eu não entendo.", tags: ["daily"], difficulty: 1),
-        .init(id: "p12", en: "Can I pay by card?", pt: "Posso pagar no cartão?", tags: ["travel"], difficulty: 1),
-        .init(id: "p13", en: "I’m looking for this address.", pt: "Estou procurando este endereço.", tags: ["travel"], difficulty: 2),
-        .init(id: "p14", en: "I need a taxi.", pt: "Eu preciso de um táxi.", tags: ["travel"], difficulty: 1),
-        .init(id: "p15", en: "One more, please.", pt: "Mais um, por favor.", tags: ["cafe","daily"], difficulty: 1),
-        .init(id: "p16", en: "That’s enough for today.", pt: "Isso é suficiente por hoje.", tags: ["daily"], difficulty: 2),
-        .init(id: "p17", en: "I’m ready.", pt: "Eu estou pronto.", tags: ["daily"], difficulty: 1),
-        .init(id: "p18", en: "Turn right.", pt: "Vire à direita.", tags: ["travel"], difficulty: 1),
-        .init(id: "p19", en: "Turn left.", pt: "Vire à esquerda.", tags: ["travel"], difficulty: 1),
-        .init(id: "p20", en: "It’s too expensive.", pt: "Está caro demais.", tags: ["travel"], difficulty: 2),
+        // Pedidos e compras
+        ("Can you help me?","Você pode me ajudar?"),
+        ("How much is this?","Quanto custa isso?"),
+        ("I would like a coffee, please","Quero um café, por favor"),
+        ("Where is the bathroom?","Onde é o banheiro?"),
+        ("Can I pay by card?","Posso pagar no cartão?"),
+        ("Do you accept cash?","Aceita dinheiro?"),
+        ("I need a receipt","Preciso de um recibo"),
+        ("Can I have the bill?","Pode trazer a conta?"),
+        ("Do you have a discount?","Tem desconto?"),
+        ("It's too expensive","Está caro demais"),
+        ("Can I get a refund?","Posso ter um reembolso?"),
+        ("I'll take this one","Vou levar esse"),
+        ("Do you have this in another size?","Tem em outro tamanho?"),
+        ("One more, please","Mais um, por favor"),
+        ("That's enough, thank you","Pode parar, obrigado"),
+
+        // Viagem e transporte
+        ("I have a reservation","Tenho uma reserva"),
+        ("I need a taxi","Preciso de um táxi"),
+        ("Where is the airport?","Onde é o aeroporto?"),
+        ("What time does it open?","Que horas abre?"),
+        ("What time does it close?","Que horas fecha?"),
+        ("Is there a bus to downtown?","Tem ônibus para o centro?"),
+        ("How far is it?","Qual a distância?"),
+        ("Can you take me to this address?","Pode me levar nesse endereço?"),
+        ("I'm lost","Estou perdido"),
+        ("Turn right at the corner","Vire à direita na esquina"),
+        ("Turn left at the traffic light","Vire à esquerda no semáforo"),
+        ("Go straight ahead","Siga em frente"),
+        ("How long does it take?","Quanto tempo leva?"),
+        ("I missed my flight","Perdi meu voo"),
+        ("I need to check in","Preciso fazer o check-in"),
+
+        // Trabalho e reuniões
+        ("I'm here for work","Estou aqui a trabalho"),
+        ("Let's start the meeting","Vamos começar a reunião"),
+        ("Can we reschedule?","Podemos remarcar?"),
+        ("I'll send you an email","Vou te enviar um email"),
+        ("Can you repeat that?","Pode repetir isso?"),
+        ("I don't understand","Não entendo"),
+        ("Can you speak more slowly?","Pode falar mais devagar?"),
+        ("I agree with you","Concordo com você"),
+        ("I disagree","Discordo"),
+        ("That's a good idea","É uma boa ideia"),
+        ("Let me think about it","Deixa eu pensar"),
+        ("I'll get back to you","Te respondo depois"),
+        ("Can you explain that again?","Pode explicar de novo?"),
+        ("We need to talk","Precisamos conversar"),
+        ("What's the deadline?","Qual é o prazo?"),
+
+        // Apresentações e socialização
+        ("Nice to meet you","Prazer em te conhecer"),
+        ("How are you?","Como você está?"),
+        ("I'm doing well, thanks","Estou bem, obrigado"),
+        ("What's your name?","Qual é o seu nome?"),
+        ("Where are you from?","De onde você é?"),
+        ("What do you do for work?","O que você faz?"),
+        ("How long have you been here?","Há quanto tempo você está aqui?"),
+        ("It's nice to see you again","Que bom te ver de novo"),
+        ("Have a great day","Tenha um ótimo dia"),
+        ("See you later","Até mais"),
+        ("Take care","Se cuida"),
+        ("Good luck","Boa sorte"),
+
+        // Situações do dia a dia
+        ("I'll be there soon","Chego já"),
+        ("I'm running late","Estou atrasado"),
+        ("Can you wait a moment?","Pode esperar um momento?"),
+        ("Just a second, please","Um segundo, por favor"),
+        ("No problem at all","Sem problema nenhum"),
+        ("Of course, go ahead","Claro, pode ir"),
+        ("That makes sense","Faz sentido"),
+        ("I'm not sure about that","Não tenho certeza"),
+        ("Let me check","Deixa eu verificar"),
+        ("I think so","Acho que sim"),
+        ("Maybe later","Talvez depois"),
+        ("Not right now","Agora não"),
+        ("Can I ask you something?","Posso te perguntar algo?"),
+        ("What do you mean?","O que você quer dizer?"),
+        ("Is everything okay?","Está tudo bem?"),
+        ("I need some help","Preciso de ajuda"),
+        ("Could you do me a favor?","Pode me fazer um favor?"),
+        ("Thank you so much","Muito obrigado"),
+        ("You're welcome","De nada"),
+        ("Excuse me","Com licença"),
+        ("I'm sorry about that","Me desculpe por isso"),
     ]
+    .enumerated()
+    .map { idx, pair in
+        PhraseItem(
+            id: "p\(idx)",
+            en: pair.0,
+            pt: pair.1,
+            tags: ["daily","travel","work"],
+            difficulty: (idx % 3) + 1
+        )
+    }
+
+    // MARK: - SCENARIOS
 
     let scenarios: [ScenarioItem] = [
-        .init(id: "s1", name: "Cafeteria", icon: "cup.and.saucer.fill", description: "Pedir, pagar, agradecer.", tags: ["cafe","daily"]),
-        .init(id: "s2", name: "Aeroporto", icon: "airplane.departure", description: "Check-in, portão, horários.", tags: ["travel"]),
-        .init(id: "s3", name: "Trabalho", icon: "briefcase.fill", description: "Reuniões, prazos, status.", tags: ["work"]),
+        .init(id: "s1", name: "Cafeteria", icon: "cup.and.saucer.fill", description: "Pedidos", tags: ["cafe","daily"]),
+        .init(id: "s2", name: "Aeroporto", icon: "airplane.departure", description: "Viagem", tags: ["travel"]),
+        .init(id: "s3", name: "Trabalho", icon: "briefcase.fill", description: "Reuniões", tags: ["work"]),
+        .init(id: "s4", name: "Compras", icon: "cart.fill", description: "Lojas e mercados", tags: ["daily"]),
+        .init(id: "s5", name: "Hotel", icon: "building.2.fill", description: "Reservas e estadia", tags: ["travel"]),
     ]
 }

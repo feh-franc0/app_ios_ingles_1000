@@ -11,6 +11,10 @@ final class AppStore: ObservableObject {
 
     @Published var content = ContentRepository()
     @Published var reviewPool: [ReviewItem] = []
+    @Published var reviewPoolTotal: Int = 0  // cresce a cada erro, zera quando pool esvazia
+
+    /// Quantos itens foram acertados na revisão até agora (neste ciclo)
+    var reviewClearedCount: Int { max(0, reviewPoolTotal - reviewPool.count) }
 
     var selectedPracticeMode: PracticeMode {
         get {
@@ -18,6 +22,19 @@ final class AppStore: ObservableObject {
         }
         set {
             user.selectedPracticeModeRawValue = newValue.rawValue
+        }
+    }
+    
+    var sessionQuestionCount: Int {
+        user.level < 10 ? 25 : 50
+    }
+
+    func isModeUnlocked(_ mode: PracticeMode) -> Bool {
+        switch mode {
+        case .words, .phrases:
+            return true
+        case .scenario:
+            return user.level >= 10
         }
     }
 
@@ -47,17 +64,24 @@ final class AppStore: ObservableObject {
     func addReview(_ item: ReviewItem) {
         if !reviewPool.contains(where: { $0.key == item.key }) {
             reviewPool.insert(item, at: 0)
+            reviewPoolTotal += 1
         }
         if reviewPool.count > 50 { reviewPool = Array(reviewPool.prefix(50)) }
+    }
+
+    func removeReviewItems(keys: [String]) {
+        reviewPool.removeAll { keys.contains($0.key) }
+        // Zera o ciclo quando o pool está totalmente limpo
+        if reviewPool.isEmpty { reviewPoolTotal = 0 }
     }
 
     // MARK: - Missão diária (UX)
 
     var dailyMissionStepsDone: Int {
         var n = 0
-        if user.dailyWordsProgress >= 10 { n += 1 }
-        if user.dailyPhrasesProgress >= 10 { n += 1 }
-        if user.dailyScenarioProgress >= 10 { n += 1 }
+        if user.dailyWordsProgress >= sessionQuestionCount { n += 1 }
+        if user.dailyPhrasesProgress >= sessionQuestionCount { n += 1 }
+        if user.dailyScenarioProgress >= sessionQuestionCount { n += 1 }
         return n
     }
 
@@ -71,8 +95,8 @@ final class AppStore: ObservableObject {
 
     /// Qual etapa vem agora (pra UI decidir o CTA)
     var nextDailyMissionStage: PracticeMode {
-        if user.dailyWordsProgress < 10 { return .words }
-        if user.dailyPhrasesProgress < 10 { return .phrases }
+        if user.dailyWordsProgress < sessionQuestionCount { return .words }
+        if user.dailyPhrasesProgress < sessionQuestionCount { return .phrases }
         return .scenario
     }
 
@@ -129,7 +153,7 @@ final class AppStore: ObservableObject {
         refreshDailyIfNeeded()
         applyStreakIfNeeded()
 
-        user.dailyScenarioProgress = 10
+        user.dailyScenarioProgress = sessionQuestionCount
 
         updateTodayWeeklyProgress()
         applyDailyMissionRewardIfCompleted()
@@ -256,7 +280,7 @@ final class AppStore: ObservableObject {
     }
     
     func setProgress(for mode: PracticeMode, value: Int) {
-        let safeValue = max(0, min(10, value))
+        let safeValue = max(0, min(sessionQuestionCount, value))
 
         switch mode {
         case .words:

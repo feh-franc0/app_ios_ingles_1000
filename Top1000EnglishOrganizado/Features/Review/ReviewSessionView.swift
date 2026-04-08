@@ -1,11 +1,8 @@
 import SwiftUI
 
-struct PracticeSessionView: View {
+struct ReviewSessionView: View {
     @EnvironmentObject private var app: AppStore
     @Environment(\.dismiss) private var dismiss
-
-    let mode: PracticeMode
-    let startIndex: Int
 
     @State private var questions: [Question] = []
     @State private var index: Int = 0
@@ -16,7 +13,7 @@ struct PracticeSessionView: View {
 
     @State private var correctCount: Int = 0
     @State private var xpGained: Int = 0
-    @State private var wrongItems: [ReviewItem] = []
+    @State private var correctKeys: [String] = []
 
     @State private var showResults = false
     @State private var isAutoAdvancing: Bool = false
@@ -27,10 +24,7 @@ struct PracticeSessionView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    colors: [
-                        Color(.systemBackground),
-                        Color(.secondarySystemBackground)
-                    ],
+                    colors: [Color(.systemBackground), Color(.secondarySystemBackground)],
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -41,30 +35,22 @@ struct PracticeSessionView: View {
 
                     if questions.isEmpty {
                         Spacer()
-
                         VStack(spacing: 12) {
-                            ProgressView()
-                                .scaleEffect(1.25)
-
-                            Text("Preparando sua prática")
+                            ProgressView().scaleEffect(1.25)
+                            Text("Preparando revisão")
                                 .font(.system(size: 14, weight: .bold))
                                 .foregroundStyle(.primary)
-
-                            Text("Carregando as próximas perguntas")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundStyle(.secondary)
                         }
-
                         Spacer()
                     } else {
                         QuestionCard(
-                            title: mode.rawValue,
+                            title: "Revisão",
                             prompt: questions[index].prompt
                         )
                         .padding(.top, 4)
                         .padding(.horizontal, 16)
                         .transition(.opacity.combined(with: .move(edge: .trailing)))
-                        .id("q-\(questions[index].id)")
+                        .id("rq-\(questions[index].id)")
 
                         VStack(spacing: 12) {
                             ForEach(questions[index].options.indices, id: \.self) { i in
@@ -104,56 +90,50 @@ struct PracticeSessionView: View {
                 }
             }
             .onAppear {
-                questions = RandomEngine.buildSession(
-                    mode: mode,
-                    repo: app.content,
+                questions = RandomEngine.buildReviewOnlySession(
                     reviewPool: app.reviewPool,
-                    count: app.sessionQuestionCount
+                    repo: app.content
                 )
-
-                if !questions.isEmpty {
-                    index = min(max(startIndex, 0), questions.count - 1)
-                }
             }
             .sheet(isPresented: $showResults) {
-                ResultsView(
-                    mode: mode,
+                ReviewResultsView(
                     correctCount: correctCount,
                     total: questions.count,
                     xpGained: xpGained,
-                    wrongItems: wrongItems
+                    clearedSoFar: app.reviewClearedCount + correctCount,
+                    poolTotal: app.reviewPoolTotal
                 ) {
-                    for item in wrongItems {
-                        app.addReview(item)
+                    // Remove do pool os itens acertados
+                    app.removeReviewItems(keys: correctKeys)
+                    // Bônus de XP pelas palavras revisadas
+                    if xpGained > 0 {
+                        app.completeSession(
+                            xpGained: xpGained,
+                            correctRate: questions.isEmpty ? 0 : Double(correctCount) / Double(questions.count)
+                        )
                     }
-
-                    let rate = questions.isEmpty ? 0 : Double(correctCount) / Double(questions.count)
-                    app.setProgress(for: mode, value: questions.count)
-                    app.completePractice(mode: mode, xpGained: xpGained, correctRate: rate)
-
                     showResults = false
                     dismiss()
                 }
-                .environmentObject(app)
             }
         }
     }
+
+    // MARK: - Top bar
 
     private var topBar: some View {
         VStack(spacing: 12) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(mode.rawValue)
+                    Text("Revisão")
                         .font(.system(size: 20, weight: .heavy))
-
-                    Text("Continue sua sessão")
+                    Text("Itens que você errou antes")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.secondary)
                 }
-
                 Spacer()
-
-                Text("\(min(index + 1, questions.count))/\(questions.count)")
+                // Progresso acumulado: acertados no ciclo / total do ciclo
+                Text("\(app.reviewClearedCount + correctCount)/\(app.reviewPoolTotal)")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 10)
@@ -167,12 +147,14 @@ struct PracticeSessionView: View {
                 value: Double(index + 1) / Double(max(questions.count, 1)),
                 height: 8,
                 trackOpacity: 0.10,
-                fill: AppColors.brandGreen
+                fill: AppColors.brandPurple
             )
             .padding(.horizontal, 16)
             .animation(.easeInOut(duration: 0.25), value: index)
         }
     }
+
+    // MARK: - Bottom CTA
 
     private var bottomCTA: some View {
         VStack(spacing: 10) {
@@ -213,15 +195,13 @@ struct PracticeSessionView: View {
 
     private var ctaGradient: LinearGradient {
         LinearGradient(
-            colors: [AppColors.brandGreen, AppColors.brandBlue],
+            colors: [AppColors.brandPurple, AppColors.brandBlue],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
     }
 
-    private var mainButtonEnabled: Bool {
-        revealed ? true : (selected != nil)
-    }
+    private var mainButtonEnabled: Bool { revealed ? true : (selected != nil) }
 
     private var mainButtonTitle: String {
         if revealed {
@@ -236,56 +216,33 @@ struct PracticeSessionView: View {
         if !revealed {
             guard let selected else { return }
             revealed = true
-
             isCorrect = (selected == questions[index].correctIndex)
 
             if isCorrect {
                 Haptics.success()
                 correctCount += 1
-                xpGained += 10
+                xpGained += 8
+                correctKeys.append(questions[index].reviewKey)
 
                 isAutoAdvancing = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + autoAdvanceDelay) {
                     guard revealed else { return }
-                    withAnimation(.easeInOut(duration: 0.20)) {
-                        goNext()
-                    }
+                    withAnimation(.easeInOut(duration: 0.20)) { goNext() }
                 }
             } else {
                 Haptics.error()
-
-                let q = questions[index]
-                let correct = q.options[q.correctIndex]
-
-                let reviewItem = ReviewItem(
-                    key: q.reviewKey,
-                    prompt: q.prompt,
-                    correct: correct,
-                    hint: q.explanation
-                )
-
-                wrongItems.append(reviewItem)
-
-                // ✅ Adiciona imediatamente ao pool de revisão
-                // (não espera o usuário tocar "Concluir")
-                app.addReview(reviewItem)
             }
             return
         }
 
         if !isAutoAdvancing {
-            withAnimation(.easeInOut(duration: 0.20)) {
-                goNext()
-            }
+            withAnimation(.easeInOut(duration: 0.20)) { goNext() }
         }
     }
 
     private func goNext() {
         guard !questions.isEmpty else { return }
         if showResults { return }
-
-        let nextValue = min(index + 1, questions.count)
-        app.setProgress(for: mode, value: nextValue)
 
         revealed = false
         selected = nil
@@ -299,12 +256,133 @@ struct PracticeSessionView: View {
     }
 
     private func answerState(for i: Int) -> AnswerVisualState {
-        guard revealed == true else {
+        guard revealed else {
             return (selected == i) ? .selected : .neutral
         }
-
         if i == questions[index].correctIndex { return .correct }
         if i == selected { return .wrong }
         return .neutral
+    }
+}
+
+// MARK: - Tela de resultado da revisão
+
+private struct ReviewResultsView: View {
+    let correctCount: Int
+    let total: Int
+    let xpGained: Int
+    let clearedSoFar: Int
+    let poolTotal: Int
+    let onFinish: () -> Void
+
+    private var accuracy: Int {
+        guard total > 0 else { return 0 }
+        return Int((Double(correctCount) / Double(total) * 100).rounded())
+    }
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [Color(.systemBackground), Color(.secondarySystemBackground)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                VStack(spacing: 20) {
+                    Spacer()
+
+                    // Ícone
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [AppColors.brandPurple, AppColors.brandBlue],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 80, height: 80)
+                            .shadow(color: AppColors.brandPurple.opacity(0.25), radius: 18, x: 0, y: 10)
+
+                        Image(systemName: accuracy >= 80 ? "checkmark.seal.fill" : "arrow.triangle.2.circlepath")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
+
+                    VStack(spacing: 8) {
+                        Text(accuracy >= 80 ? "Ótima revisão!" : "Continue praticando!")
+                            .font(.system(size: 28, weight: .heavy))
+                            .foregroundStyle(.primary)
+
+                        Text("Você acertou \(correctCount) de \(total). Os acertos foram removidos da fila de revisão.")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                    }
+
+                    // Stats
+                    HStack(spacing: 12) {
+                        statBox(title: "Revisados", value: "\(clearedSoFar)/\(poolTotal)", tint: AppColors.brandPurple)
+                        statBox(title: "XP", value: "+\(xpGained)", tint: AppColors.brandGreen)
+                        statBox(title: "Precisão", value: "\(accuracy)%", tint: AppColors.brandBlue)
+                    }
+                    .padding(.horizontal, 20)
+
+                    Spacer()
+
+                    Button {
+                        onFinish()
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: "checkmark")
+                            Text("Concluir")
+                        }
+                        .font(.system(size: 18, weight: .heavy))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(
+                                colors: [AppColors.brandPurple, AppColors.brandBlue],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        )
+                        .foregroundStyle(.white)
+                        .shadow(color: AppColors.brandPurple.opacity(0.22), radius: 16, x: 0, y: 10)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 32)
+                }
+            }
+            .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+
+    private func statBox(title: String, value: String, tint: Color) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.system(size: 24, weight: .heavy))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+        }
+        .frame(maxWidth: .infinity, minHeight: 90, alignment: .topLeading)
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(tint.opacity(0.10))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(tint.opacity(0.14), lineWidth: 1)
+        )
     }
 }

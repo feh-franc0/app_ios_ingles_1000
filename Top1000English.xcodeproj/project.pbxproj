@@ -24,6 +24,7 @@
 		708760462F500C7F0010559C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760152F500C7F0010559C /* ContentView.swift */; };
 		708760472F500C7F0010559C /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760312F500C7F0010559C /* Metric.swift */; };
 		708760482F500C7F0010559C /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760382F500C7F0010559C /* ReviewView.swift */; };
+		AA1234561234567890ABCDEF /* ReviewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1234551234567890ABCDEF /* ReviewSessionView.swift */; };
 		708760492F500C7F0010559C /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760332F500C7F0010559C /* QuestionCard.swift */; };
 		7087604A2F500C7F0010559C /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087601D2F500C7F0010559C /* Haptics.swift */; };
 		7087604B2F500C7F0010559C /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708760182F500C7F0010559C /* GlassCard.swift */; };
@@ -74,6 +75,7 @@
 		708760342F500C7F0010559C /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		708760362F500C7F0010559C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		708760382F500C7F0010559C /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		AA1234551234567890ABCDEF /* ReviewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSessionView.swift; sourceTree = "<group>"; };
 		7087603B2F500C7F0010559C /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanCard.swift.swift; sourceTree = "<group>"; };
 		70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRingView.swift.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				708760382F500C7F0010559C /* ReviewView.swift */,
+					AA1234551234567890ABCDEF /* ReviewSessionView.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				708760472F500C7F0010559C /* Metric.swift in Sources */,
 				704F3B962F53DEE300C87411 /* MockTabBar.swift in Sources */,
 				708760482F500C7F0010559C /* ReviewView.swift in Sources */,
+					AA1234561234567890ABCDEF /* ReviewSessionView.swift in Sources */,
 				708760492F500C7F0010559C /* QuestionCard.swift in Sources */,
 				7087604A2F500C7F0010559C /* Haptics.swift in Sources */,
 				7087604B2F500C7F0010559C /* GlassCard.swift in Sources */,

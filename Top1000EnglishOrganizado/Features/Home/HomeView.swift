@@ -6,6 +6,7 @@ struct HomeView: View {
     @State private var showSession = false
     @State private var selectedMode: PracticeMode = .words
     @State private var showScenarios = false
+    @State private var showReviewSession = false
     @State private var pulse = false
 
     var body: some View {
@@ -16,8 +17,9 @@ struct HomeView: View {
                 VStack(spacing: 14) {
                     heroHeader
                     missionCard
-                    streakCard
+                    reviewCard
                     rewardCard
+                    streakCard
                     Spacer(minLength: 16)
                 }
                 .padding(.top, 12)
@@ -42,6 +44,10 @@ struct HomeView: View {
                 startIndex: app.progress(for: .scenario)
             )
             .environmentObject(app)
+        }
+        .sheet(isPresented: $showReviewSession) {
+            ReviewSessionView()
+                .environmentObject(app)
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
@@ -107,6 +113,7 @@ struct HomeView: View {
                     let mode = app.selectedPracticeMode
 
                     if mode == .scenario {
+                        guard isScenarioUnlocked else { return }
                         showScenarios = true
                     } else {
                         selectedMode = mode
@@ -172,8 +179,8 @@ struct HomeView: View {
                             icon: "checkmark.circle.fill",
                             iconTint: AppColors.brandGreen,
                             trailing: wordsTrailing,
-                            trailingTint: app.progress(for: .words) >= 10 ? AppColors.brandGreen : .secondary,
-                            showProgressBar: app.progress(for: .words) > 0 && app.progress(for: .words) < 10,
+                            trailingTint: app.progress(for: .words) >= sessionTotal ? AppColors.brandGreen : .secondary,
+                            showProgressBar: app.progress(for: .words) > 0 && app.progress(for: .words) < sessionTotal,
                             progress: wordsProgress,
                             isSelected: app.selectedPracticeMode == .words,
                             isLast: false
@@ -192,8 +199,8 @@ struct HomeView: View {
                             icon: "text.justify.left",
                             iconTint: AppColors.brandBlue,
                             trailing: phrasesTrailing,
-                            trailingTint: app.progress(for: .phrases) >= 10 ? AppColors.brandGreen : .primary,
-                            showProgressBar: app.progress(for: .phrases) > 0 && app.progress(for: .phrases) < 10,
+                            trailingTint: app.progress(for: .phrases) >= sessionTotal ? AppColors.brandGreen : .primary,
+                            showProgressBar: app.progress(for: .phrases) > 0 && app.progress(for: .phrases) < sessionTotal,
                             progress: phrasesProgress,
                             isSelected: app.selectedPracticeMode == .phrases,
                             isLast: false
@@ -212,8 +219,8 @@ struct HomeView: View {
                             icon: isScenarioUnlocked ? "message.fill" : "lock.fill",
                             iconTint: AppColors.brandPurple,
                             trailing: scenarioTrailing,
-                            trailingTint: isScenarioUnlocked ? .secondary : .secondary,
-                            showProgressBar: isScenarioUnlocked && app.progress(for: .scenario) > 0 && app.progress(for: .scenario) < 10,
+                            trailingTint: .secondary,
+                            showProgressBar: isScenarioUnlocked && app.progress(for: .scenario) > 0 && app.progress(for: .scenario) < sessionTotal,
                             progress: scenarioProgress,
                             isSelected: isScenarioUnlocked && app.selectedPracticeMode == .scenario,
                             isLast: true
@@ -256,6 +263,107 @@ struct HomeView: View {
         )
     }
 
+    // MARK: - REVIEW
+    // Sempre visível. Vazio = "Tudo certo". Com erros = linha clicável igual MissionRow.
+
+    private var reviewCard: some View {
+        CleanCard {
+            VStack(alignment: .leading, spacing: 14) {
+
+                // Cabeçalho
+                HStack {
+                    Text("Revisão")
+                        .font(.system(size: 18, weight: .heavy))
+                        .foregroundStyle(.primary)
+                    Spacer()
+                    Text(app.reviewPoolTotal == 0
+                         ? "0/0"
+                         : "\(app.reviewClearedCount)/\(app.reviewPoolTotal)")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.secondary)
+                }
+
+                // Conteúdo interno — mesmo container branco do missionCard
+                VStack(spacing: 10) {
+                    if app.reviewPool.isEmpty {
+                        // Estado padrão: nenhum erro acumulado
+                        HStack(spacing: 12) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(AppColors.brandGreen.opacity(0.14))
+                                    .frame(width: 34, height: 34)
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundStyle(AppColors.brandGreen)
+                            }
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text("Tudo certo por aqui!")
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundStyle(.primary)
+                                Text("Palavras e frases erradas aparecem aqui para revisar.")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
+
+                    } else {
+                        // Há erros: linha clicável idêntica ao MissionRow
+                        Button {
+                            Haptics.light()
+                            showReviewSession = true
+                        } label: {
+                            VStack(spacing: 8) {
+                                HStack(spacing: 12) {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 14)
+                                            .fill(AppColors.brandPurple.opacity(0.14))
+                                            .frame(width: 34, height: 34)
+                                        Image(systemName: "arrow.triangle.2.circlepath")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundStyle(AppColors.brandPurple)
+                                    }
+                                    Text("Revisão Simplificada")
+                                        .font(.system(size: 15, weight: .bold))
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Text("\(app.reviewClearedCount)/\(app.reviewPoolTotal)")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundStyle(.secondary)
+                                }
+
+                                // Barra de progresso roxo igual ao MissionRow
+                                ThinProgressBar(
+                                    value: app.reviewPoolTotal > 0
+                                        ? Double(app.reviewClearedCount) / Double(app.reviewPoolTotal)
+                                        : 0,
+                                    height: 6,
+                                    trackOpacity: 0.10,
+                                    fill: AppColors.brandPurple
+                                )
+                            }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 10)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .fill(Color.white.opacity(0.92))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .stroke(Color.black.opacity(0.05), lineWidth: 1)
+                )
+                .shadow(color: .black.opacity(0.06), radius: 18, x: 0, y: 10)
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     private var levelProgress: Double {
@@ -264,33 +372,37 @@ struct HomeView: View {
         return max(0.0, min(1.0, mod / perLevel))
     }
 
+    private var sessionTotal: Int {
+        app.sessionQuestionCount
+    }
+
     private var isScenarioUnlocked: Bool {
-        app.progress(for: .phrases) >= 10
+        app.isModeUnlocked(.scenario)
     }
 
     private var wordsTrailing: String {
-        "\(app.progress(for: .words))/10"
+        "\(app.progress(for: .words))/\(sessionTotal)"
     }
 
     private var phrasesTrailing: String {
-        "\(app.progress(for: .phrases))/10"
+        "\(app.progress(for: .phrases))/\(sessionTotal)"
     }
 
     private var scenarioTrailing: String {
-        if !isScenarioUnlocked { return "Bloqueado" }
-        return "\(app.progress(for: .scenario))/10"
+        if !isScenarioUnlocked { return "Nível 10" }
+        return "\(app.progress(for: .scenario))/\(sessionTotal)"
     }
 
     private var wordsProgress: Double {
-        Double(app.progress(for: .words)) / 10.0
+        Double(app.progress(for: .words)) / Double(sessionTotal)
     }
 
     private var phrasesProgress: Double {
-        Double(app.progress(for: .phrases)) / 10.0
+        Double(app.progress(for: .phrases)) / Double(sessionTotal)
     }
 
     private var scenarioProgress: Double {
-        Double(app.progress(for: .scenario)) / 10.0
+        Double(app.progress(for: .scenario)) / Double(sessionTotal)
     }
 }
 
