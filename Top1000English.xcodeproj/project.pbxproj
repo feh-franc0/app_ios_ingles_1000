@@ -56,6 +56,11 @@
 		BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234551234567890ABCDE2 /* AppNotifications.swift */; };
 		CC1234561234567890ABCDE1 /* HeartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234551234567890ABCDE1 /* HeartsView.swift */; };
 		CC1234561234567890ABCDE2 /* XPPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234551234567890ABCDE2 /* XPPopupView.swift */; };
+		DD1234561234567890ABCDE1 /* RewardChestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1234551234567890ABCDE1 /* RewardChestView.swift */; };
+		DD1234561234567890ABCDE2 /* SpeedRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1234551234567890ABCDE2 /* SpeedRunView.swift */; };
+		DD1234561234567890ABCDE3 /* BossBattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1234551234567890ABCDE3 /* BossBattleView.swift */; };
+		EE1234561234567890ABCDE1 /* WordPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1234551234567890ABCDE1 /* WordPortfolioView.swift */; };
+		EE1234561234567890ABCDE2 /* TitlePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1234551234567890ABCDE2 /* TitlePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +114,11 @@
 		BB1234551234567890ABCDE2 /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
 		CC1234551234567890ABCDE1 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
 		CC1234551234567890ABCDE2 /* XPPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPPopupView.swift; sourceTree = "<group>"; };
+		DD1234551234567890ABCDE1 /* RewardChestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardChestView.swift; sourceTree = "<group>"; };
+		DD1234551234567890ABCDE2 /* SpeedRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedRunView.swift; sourceTree = "<group>"; };
+		DD1234551234567890ABCDE3 /* BossBattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BossBattleView.swift; sourceTree = "<group>"; };
+		EE1234551234567890ABCDE1 /* WordPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPortfolioView.swift; sourceTree = "<group>"; };
+		EE1234551234567890ABCDE2 /* TitlePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +268,9 @@
 				708760322F500C7F0010559C /* PracticeSessionView.swift */,
 				708760332F500C7F0010559C /* QuestionCard.swift */,
 				708760342F500C7F0010559C /* ResultsView.swift */,
+				DD1234551234567890ABCDE1 /* RewardChestView.swift */,
+				DD1234551234567890ABCDE2 /* SpeedRunView.swift */,
+				DD1234551234567890ABCDE3 /* BossBattleView.swift */,
 			);
 			path = Practice;
 			sourceTree = "<group>";
@@ -266,6 +279,8 @@
 			isa = PBXGroup;
 			children = (
 				708760362F500C7F0010559C /* ProfileView.swift */,
+				EE1234551234567890ABCDE1 /* WordPortfolioView.swift */,
+				EE1234551234567890ABCDE2 /* TitlePickerView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -490,6 +505,11 @@
 				BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */,
 				CC1234561234567890ABCDE1 /* HeartsView.swift in Sources */,
 				CC1234561234567890ABCDE2 /* XPPopupView.swift in Sources */,
+				DD1234561234567890ABCDE1 /* RewardChestView.swift in Sources */,
+				DD1234561234567890ABCDE2 /* SpeedRunView.swift in Sources */,
+				DD1234561234567890ABCDE3 /* BossBattleView.swift in Sources */,
+				EE1234561234567890ABCDE1 /* WordPortfolioView.swift in Sources */,
+				EE1234561234567890ABCDE2 /* TitlePickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

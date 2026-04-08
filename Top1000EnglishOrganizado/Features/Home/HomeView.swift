@@ -9,6 +9,8 @@ struct HomeView: View {
     @State private var showReviewSession = false
     @State private var pulse          = false
     @State private var celebration: CelebrationType? = nil
+    @State private var showSpeedRun = false
+    @State private var showBossBattle = false
 
     // Controle do modo selecionado nos pills
     @State private var activePill: PracticeMode = .words
@@ -28,8 +30,10 @@ struct HomeView: View {
                     VStack(spacing: 16) {
                         missionCard
                         quickStatsRow
+                        wordMasteryCard
                         reviewCard
                         streakCard
+                        extraModesRow
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 110)
@@ -50,6 +54,12 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showReviewSession) {
             ReviewSessionView().environmentObject(app)
+        }
+        .sheet(isPresented: $showSpeedRun) {
+            SpeedRunView().environmentObject(app)
+        }
+        .sheet(isPresented: $showBossBattle) {
+            BossBattleView(boss: BossData.all[0]).environmentObject(app)
         }
         .celebration($celebration)
         .onReceive(NotificationCenter.default.publisher(for: .didLevelUp)) { notif in
@@ -758,6 +768,145 @@ struct HomeView: View {
     }
 
     // ────────────────────────────────────────────────────────────────
+    // MARK: - Word Mastery Card
+    // ────────────────────────────────────────────────────────────────
+
+    private var wordMasteryCard: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Header
+            HStack(spacing: 8) {
+                Text("📚").font(.system(size: 18))
+                Text("Vocabulário em Progresso")
+                    .font(.system(size: 17, weight: .heavy))
+                Spacer()
+            }
+            .padding(.horizontal, 18)
+            .padding(.top, 18)
+            .padding(.bottom, 14)
+
+            // Progress bar
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color.black.opacity(0.06))
+                        .frame(height: 10)
+
+                    Capsule()
+                        .fill(AppColors.brandPurple)
+                        .frame(
+                            width: max(16, geo.size.width * min(1.0, wordMasteryProgress)),
+                            height: 10
+                        )
+                        .shadow(color: AppColors.brandPurple.opacity(0.45), radius: 6, x: 0, y: 2)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: wordMasteryProgress)
+                }
+            }
+            .frame(height: 10)
+            .padding(.horizontal, 18)
+            .padding(.bottom, 12)
+
+            // Stats
+            HStack(spacing: 4) {
+                Text("\(app.user.totalWordsLearned)/1000 palavras")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(.primary)
+                Text("•")
+                    .foregroundStyle(.secondary)
+                Text("\(app.user.totalWordsMastered) dominadas")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                Text("⭐️").font(.system(size: 12))
+                Spacer()
+            }
+            .padding(.horizontal, 18)
+            .padding(.bottom, 18)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(Color(.systemBackground))
+                .shadow(color: .black.opacity(0.08), radius: 20, x: 0, y: 8)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.black.opacity(0.04), lineWidth: 1)
+        )
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    // MARK: - Extra Modes Row
+    // ────────────────────────────────────────────────────────────────
+
+    private var extraModesRow: some View {
+        HStack(spacing: 10) {
+            // Speed Run Card
+            Button {
+                Haptics.light()
+                showSpeedRun = true
+            } label: {
+                VStack(spacing: 12) {
+                    Text("⚡️")
+                        .font(.system(size: 40))
+                    VStack(spacing: 4) {
+                        Text("Speed Run")
+                            .font(.system(size: 16, weight: .heavy))
+                            .foregroundStyle(.white)
+                        Text("60 segundos")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(Color.white.opacity(0.80))
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .padding(.horizontal, 16)
+                .background(
+                    LinearGradient(
+                        colors: [AppColors.brandOrange, AppColors.brandOrange.opacity(0.7)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(24)
+                .shadow(color: AppColors.brandOrange.opacity(0.35), radius: 12, x: 0, y: 6)
+            }
+            .buttonStyle(.plain)
+
+            // Boss Battle Card
+            Button {
+                Haptics.light()
+                showBossBattle = true
+            } label: {
+                VStack(spacing: 12) {
+                    Text("⚔️")
+                        .font(.system(size: 40))
+                    VStack(spacing: 4) {
+                        Text("Boss Battle")
+                            .font(.system(size: 16, weight: .heavy))
+                            .foregroundStyle(.white)
+                        Text("Desafio épico")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(Color.white.opacity(0.80))
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .padding(.horizontal, 16)
+                .background(
+                    LinearGradient(
+                        colors: [AppColors.brandPurple, AppColors.brandBlue],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(24)
+                .shadow(color: AppColors.brandPurple.opacity(0.35), radius: 12, x: 0, y: 6)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    // ────────────────────────────────────────────────────────────────
     // MARK: - Helpers
     // ────────────────────────────────────────────────────────────────
 
@@ -771,6 +920,10 @@ struct HomeView: View {
     private var levelProgress: Double {
         let mod = Double(app.user.xpTotal % 250)
         return max(0.0, min(1.0, mod / 250.0))
+    }
+
+    private var wordMasteryProgress: Double {
+        return min(1.0, Double(app.user.totalWordsLearned) / 1000.0)
     }
 
     private var sessionTotal: Int { app.sessionQuestionCount }

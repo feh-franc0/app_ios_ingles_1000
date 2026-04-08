@@ -19,6 +19,7 @@ struct PracticeSessionView: View {
     @State private var wrongItems: [ReviewItem] = []
 
     @State private var showResults = false
+    @State private var showChest   = false       // ← Baú de recompensa
     @State private var isAutoAdvancing: Bool = false
 
     // Hearts & lives
@@ -30,6 +31,9 @@ struct PracticeSessionView: View {
 
     // Streak counter (acertos seguidos)
     @State private var currentStreak: Int = 0
+
+    // Word Mastery: chaves das perguntas respondidas nesta sessão
+    @State private var masteredThisSession: Int = 0
 
     private let autoAdvanceDelay: Double = 0.70
 
@@ -155,23 +159,19 @@ struct PracticeSessionView: View {
                     showNoLives = true
                 }
             }
-            .sheet(isPresented: $showResults) {
-                ResultsView(
+            // ── Baú de recompensa (substitui ResultsView como tela final) ──
+            .fullScreenCover(isPresented: $showChest) {
+                RewardChestView(
                     mode: mode,
                     correctCount: correctCount,
                     total: questions.count,
                     xpGained: xpGained,
                     wrongItems: wrongItems
                 ) {
-                    for item in wrongItems {
-                        app.addReview(item)
-                    }
-
                     let rate = questions.isEmpty ? 0 : Double(correctCount) / Double(questions.count)
                     app.setProgress(for: mode, value: questions.count)
                     app.completePractice(mode: mode, xpGained: xpGained, correctRate: rate)
-
-                    showResults = false
+                    showChest = false
                     dismiss()
                 }
                 .environmentObject(app)
@@ -344,11 +344,23 @@ struct PracticeSessionView: View {
 
             isCorrect = (selected == questions[index].correctIndex)
 
+            let q = questions[index]
+
             if isCorrect {
                 Haptics.success()
                 correctCount += 1
                 xpGained += 10
                 currentStreak += 1
+
+                // Mastery engine — registra acerto
+                let prevLevel = app.masteryFor(key: q.reviewKey).level
+                app.updateWordMastery(key: q.reviewKey, correct: true)
+                let newLevel  = app.masteryFor(key: q.reviewKey).level
+                if newLevel.rawValue > prevLevel.rawValue {
+                    masteredThisSession += 1
+                    // XP bônus ao subir de nível de mastery
+                    xpGained += 5
+                }
 
                 // Dispara popup de XP
                 xpPopupTrigger += 1
@@ -365,9 +377,10 @@ struct PracticeSessionView: View {
                 Haptics.error()
                 currentStreak = 0
 
-                let q = questions[index]
-                let correct = q.options[q.correctIndex]
+                // Mastery engine — registra erro
+                app.updateWordMastery(key: q.reviewKey, correct: false)
 
+                let correct = q.options[q.correctIndex]
                 let reviewItem = ReviewItem(
                     key: q.reviewKey,
                     prompt: q.prompt,
