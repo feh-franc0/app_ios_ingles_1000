@@ -59,7 +59,8 @@ struct PracticeSessionView: View {
                     } else {
                         QuestionCard(
                             title: mode.rawValue,
-                            prompt: questions[index].prompt
+                            prompt: questions[index].prompt,
+                            audioText: extractEnglishText(from: questions[index].prompt)
                         )
                         .padding(.top, 4)
                         .padding(.horizontal, 16)
@@ -296,6 +297,21 @@ struct PracticeSessionView: View {
         } else {
             index += 1
         }
+    }
+
+    /// Extrai o texto em inglês do prompt para pronunciar
+    private func extractEnglishText(from prompt: String) -> String? {
+        // Formato: "Qual a tradução de "word"?" → extrai "word"
+        if let range = prompt.range(of: "\u{201C}(.*?)\u{201D}", options: .regularExpression) {
+            return String(prompt[range]).trimmingCharacters(in: CharacterSet(charactersIn: "\u{201C}\u{201D}"))
+        }
+        // Formato frase: extrai a parte em inglês após \n
+        if prompt.contains("\n") {
+            let lines = prompt.components(separatedBy: "\n")
+            return lines.last?.trimmingCharacters(in: .whitespacesAndNewlines)
+                .trimmingCharacters(in: CharacterSet(charactersIn: "\u{201C}\u{201D}"))
+        }
+        return nil
     }
 
     private func answerState(for i: Int) -> AnswerVisualState {

@@ -59,6 +59,45 @@ final class AppStore: ObservableObject {
         isLoading = false
     }
 
+    // MARK: - Onboarding
+
+    func completeOnboarding(name: String, dailyGoal: Int, level: Int) {
+        user.name = name
+        user.dailyGoalXP = dailyGoal
+        user.level = level
+        user.xpTotal = level > 1 ? (level - 1) * 250 : 0
+        user.hasCompletedOnboarding = true
+        Haptics.success()
+    }
+
+    // MARK: - Badges
+
+    func unlockBadge(_ id: String) {
+        guard !user.unlockedBadgeIDs.contains(id) else { return }
+        user.unlockedBadgeIDs.append(id)
+        Haptics.success()
+    }
+
+    func checkAndUnlockBadges() {
+        // Streak badges
+        if user.streak >= 3  { unlockBadge("streak_3") }
+        if user.streak >= 7  { unlockBadge("streak_7") }
+        if user.streak >= 30 { unlockBadge("streak_30") }
+
+        // Nível badges
+        if user.level >= 5  { unlockBadge("level_5") }
+        if user.level >= 10 { unlockBadge("level_10") }
+        if user.level >= 20 { unlockBadge("level_20") }
+
+        // XP badges
+        if user.xpTotal >= 1000  { unlockBadge("xp_1000") }
+        if user.xpTotal >= 5000  { unlockBadge("xp_5000") }
+        if user.xpTotal >= 10000 { unlockBadge("xp_10000") }
+
+        // Missão completa
+        if dailyMissionIsComplete { unlockBadge("mission_complete") }
+    }
+
     // MARK: - Review
 
     func addReview(_ item: ReviewItem) {
@@ -135,9 +174,15 @@ final class AppStore: ObservableObject {
         if newLevel != user.level {
             user.level = newLevel
             Haptics.success()
+            NotificationCenter.default.post(
+                name: .didLevelUp,
+                object: nil,
+                userInfo: ["level": newLevel]
+            )
         }
 
         user.lastSessionDay = startOfDay(Date())
+        checkAndUnlockBadges()
     }
 
     /// ✅ Novo: complete prática + marca etapa da missão automaticamente
@@ -208,7 +253,7 @@ final class AppStore: ObservableObject {
         // paga 1x por dia
         if user.lastMissionRewardKey == todayKey { return }
 
-        // ✅ bônus maneiro de missão completa
+        // bônus de missão completa
         user.coins += 25
         user.xpTotal += 30
         user.todayXP = min(user.dailyGoalXP, user.todayXP + 30)
@@ -218,6 +263,9 @@ final class AppStore: ObservableObject {
 
         // atualiza % semanal pra garantir 100%
         user.weeklyProgress[todayKey] = 1.0
+
+        // Dispara celebração de missão completa
+        NotificationCenter.default.post(name: .didCompleteDailyMission, object: nil)
 
         Haptics.success()
     }

@@ -42,6 +42,18 @@
 		70A2FFCF2F52252D00675630 /* LevelRingView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */; };
 		70A2FFD12F52254900675630 /* StreakRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFD02F52254500675630 /* StreakRowView.swift */; };
 		70A2FFD32F5225A300675630 /* RewardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2FFD22F5225A100675630 /* RewardCardView.swift */; };
+		7D556377833B441CBF5FD2B9 /* ContentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983F36B280974EE8B50D6F9E /* ContentServiceProtocol.swift */; };
+		A0FD7768A0AB4751804394EA /* AudioServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD3F4816D44A2DB5BAD04A /* AudioServiceProtocol.swift */; };
+		B3BCCE2B2A994BBAB088D684 /* PremiumServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA274684B10A4AB58CC0869C /* PremiumServiceProtocol.swift */; };
+		FF8E3C1824D64107A2D7C71C /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248506C71F9483F92D3051A /* NotificationServiceProtocol.swift */; };
+		DBD0ED47E1F547D7AACEB626 /* MockAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5949BC94B4964951BA603DEF /* MockAudioService.swift */; };
+		70D17013D9024B9AB8E538DE /* MockPremiumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A332393854843E5B33D070C /* MockPremiumService.swift */; };
+		CCB399CBFA314C56A597D697 /* MockNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12588A4EEA854BCCAC803BEE /* MockNotificationService.swift */; };
+		9CAD795353F04EAC9DB2FA3D /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5CAB4AE384C139BE131B1 /* OnboardingView.swift */; };
+		04E4833522D94EF9BA7A23B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB859A5F304F438729185B /* SettingsView.swift */; };
+		291E04D184DB4B088C0B15C7 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C2B31267CB49989CE3DC97 /* PremiumView.swift */; };
+		BB1234561234567890ABCDE1 /* CelebrationOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */; };
+		BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234551234567890ABCDE2 /* AppNotifications.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +93,18 @@
 		70A2FFCE2F52252B00675630 /* LevelRingView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRingView.swift.swift; sourceTree = "<group>"; };
 		70A2FFD02F52254500675630 /* StreakRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRowView.swift; sourceTree = "<group>"; };
 		70A2FFD22F5225A100675630 /* RewardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCardView.swift; sourceTree = "<group>"; };
+		983F36B280974EE8B50D6F9E /* ContentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentServiceProtocol.swift; sourceTree = "<group>"; };
+		75AD3F4816D44A2DB5BAD04A /* AudioServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioServiceProtocol.swift; sourceTree = "<group>"; };
+		DA274684B10A4AB58CC0869C /* PremiumServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumServiceProtocol.swift; sourceTree = "<group>"; };
+		4248506C71F9483F92D3051A /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
+		5949BC94B4964951BA603DEF /* MockAudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAudioService.swift; sourceTree = "<group>"; };
+		2A332393854843E5B33D070C /* MockPremiumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPremiumService.swift; sourceTree = "<group>"; };
+		12588A4EEA854BCCAC803BEE /* MockNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationService.swift; sourceTree = "<group>"; };
+		C9A5CAB4AE384C139BE131B1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		9FFB859A5F304F438729185B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		71C2B31267CB49989CE3DC97 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
+		BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationOverlay.swift; sourceTree = "<group>"; };
+		BB1234551234567890ABCDE2 /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +158,7 @@
 				7087601A2F500C7F0010559C /* StatChip.swift */,
 				70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */,
 				705513E72F5521F7005B0488 /* ThinProgressBar.swift */,
+				BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -144,6 +169,7 @@
 				7087601C2F500C7F0010559C /* AppColors.swift */,
 				7087601D2F500C7F0010559C /* Haptics.swift */,
 				7087601E2F500C7F0010559C /* StrongBackground.swift */,
+				BB1234551234567890ABCDE2 /* AppNotifications.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -247,9 +273,36 @@
 			path = Review;
 			sourceTree = "<group>";
 		};
+		E1A2B3C4D5E6F7A8B9C0D1E2 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C9A5CAB4AE384C139BE131B1 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F2E3D4C5B6A7988E9D0C1B2A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9FFB859A5F304F438729185B /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A3B4C5D6E7F8A9B0C1D2E3F4 /* Premium */ = {
+			isa = PBXGroup;
+			children = (
+				71C2B31267CB49989CE3DC97 /* PremiumView.swift */,
+			);
+			path = Premium;
+			sourceTree = "<group>";
+		};
 		7087603A2F500C7F0010559C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				E1A2B3C4D5E6F7A8B9C0D1E2 /* Onboarding */,
+				F2E3D4C5B6A7988E9D0C1B2A /* Settings */,
+				A3B4C5D6E7F8A9B0C1D2E3F4 /* Premium */,
 				7087602B2F500C7F0010559C /* Home */,
 				7087602E2F500C7F0010559C /* Path */,
 				708760352F500C7F0010559C /* Practice */,
@@ -267,6 +320,36 @@
 			path = State;
 			sourceTree = "<group>";
 		};
+		B5C6D7E8F9A0B1C2D3E4F5A6 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				983F36B280974EE8B50D6F9E /* ContentServiceProtocol.swift */,
+				75AD3F4816D44A2DB5BAD04A /* AudioServiceProtocol.swift */,
+				DA274684B10A4AB58CC0869C /* PremiumServiceProtocol.swift */,
+				4248506C71F9483F92D3051A /* NotificationServiceProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C6D7E8F9A0B1C2D3E4F5A6B7 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				5949BC94B4964951BA603DEF /* MockAudioService.swift */,
+				2A332393854843E5B33D070C /* MockPremiumService.swift */,
+				12588A4EEA854BCCAC803BEE /* MockNotificationService.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		D7E8F9A0B1C2D3E4F5A6B7C8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B5C6D7E8F9A0B1C2D3E4F5A6 /* Protocols */,
+				C6D7E8F9A0B1C2D3E4F5A6B7 /* Mock */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		7087603D2F500C7F0010559C /* Top1000EnglishOrganizado */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +358,7 @@
 				708760232F500C7F0010559C /* Data */,
 				708760282F500C7F0010559C /* Domain */,
 				7087603A2F500C7F0010559C /* Features */,
+				D7E8F9A0B1C2D3E4F5A6B7C8 /* Services */,
 				7087603C2F500C7F0010559C /* State */,
 			);
 			path = Top1000EnglishOrganizado;
@@ -386,6 +470,18 @@
 				708760542F500C7F0010559C /* StrongBackground.swift in Sources */,
 				70A2FFD12F52254900675630 /* StreakRowView.swift in Sources */,
 				708760552F500C7F0010559C /* ResultsView.swift in Sources */,
+				7D556377833B441CBF5FD2B9 /* ContentServiceProtocol.swift in Sources */,
+				A0FD7768A0AB4751804394EA /* AudioServiceProtocol.swift in Sources */,
+				B3BCCE2B2A994BBAB088D684 /* PremiumServiceProtocol.swift in Sources */,
+				FF8E3C1824D64107A2D7C71C /* NotificationServiceProtocol.swift in Sources */,
+				DBD0ED47E1F547D7AACEB626 /* MockAudioService.swift in Sources */,
+				70D17013D9024B9AB8E538DE /* MockPremiumService.swift in Sources */,
+				CCB399CBFA314C56A597D697 /* MockNotificationService.swift in Sources */,
+				9CAD795353F04EAC9DB2FA3D /* OnboardingView.swift in Sources */,
+				04E4833522D94EF9BA7A23B6 /* SettingsView.swift in Sources */,
+				291E04D184DB4B088C0B15C7 /* PremiumView.swift in Sources */,
+				BB1234561234567890ABCDE1 /* CelebrationOverlay.swift in Sources */,
+				BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

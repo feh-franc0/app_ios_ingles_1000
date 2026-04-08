@@ -20,7 +20,7 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .profile: return "person.fill"
         }
     }
-}
+}   
 
 struct GlassTabBar: View {
     @Binding var selected: AppTab

@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var showScenarios = false
     @State private var showReviewSession = false
     @State private var pulse = false
+    @State private var celebration: CelebrationType? = nil
 
     var body: some View {
         ZStack {
@@ -48,6 +49,19 @@ struct HomeView: View {
         .sheet(isPresented: $showReviewSession) {
             ReviewSessionView()
                 .environmentObject(app)
+        }
+        .celebration($celebration)
+        .onReceive(NotificationCenter.default.publisher(for: .didLevelUp)) { notif in
+            if let level = notif.userInfo?["level"] as? Int {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    celebration = .levelUp(level)
+                }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .didCompleteDailyMission)) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                celebration = .missionComplete
+            }
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {

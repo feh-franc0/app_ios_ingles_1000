@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MockTabBar: View {
-    @Binding var selected: Tab
+    @Binding var selected: AppTab
 
     var body: some View {
         VStack(spacing: 0) {
@@ -11,8 +11,6 @@ struct MockTabBar: View {
                 tabItem(.home)
                 Spacer()
                 tabItem(.path)
-                Spacer()
-                tabItem(.review)
                 Spacer()
                 tabItem(.profile)
             }
@@ -27,7 +25,7 @@ struct MockTabBar: View {
         }
     }
 
-    private func tabItem(_ tab: Tab) -> some View {
+    private func tabItem(_ tab: AppTab) -> some View {
         Button {
             selected = tab
             Haptics.light()

@@ -26,34 +26,47 @@ enum PracticeMode: String, CaseIterable, Identifiable {
 }
 
 struct UserState: Codable {
-    var name: String = "Franco"
-    var streak: Int = 7
-    var level: Int = 5
-    var coins: Int = 120
+    // Onboarding
+    var hasCompletedOnboarding: Bool = false
+    var name: String = ""
 
-    var xpTotal: Int = 1240
+    // Progresso
+    var streak: Int = 0
+    var level: Int = 1
+    var coins: Int = 0
+    var xpTotal: Int = 0
     var dailyGoalXP: Int = 50
-    var todayXP: Int = 32
+    var todayXP: Int = 0
 
-    // ✅ modo selecionado pelo usuário
+    // Notificação diária
+    var notificationEnabled: Bool = false
+    var notificationHour: Int = 20
+    var notificationMinute: Int = 0
+
+    // Modo selecionado
     var selectedPracticeModeRawValue: String = PracticeMode.words.rawValue
 
-    // ✅ progresso real da missão diária
+    // Progresso missão diária
     var dailyWordsProgress: Int = 0
     var dailyPhrasesProgress: Int = 0
     var dailyScenarioProgress: Int = 0
 
-    // ✅ Progresso semanal (0.0 ... 1.0 por dia)
-    // chave exemplo: "2026-02-27"
+    // Progresso semanal (0.0...1.0 por dia)
     var weeklyProgress: [String: Double] = [:]
 
-    // ✅ trava pra pagar o bônus da missão 1x por dia
+    // Trava bônus missão (1x/dia)
     var lastMissionRewardKey: String? = nil
 
     // Controle diário / streak
     var lastDailyResetDay: Date? = nil
     var lastStreakDay: Date? = nil
     var lastSessionDay: Date? = nil
+
+    // Badges desbloqueados
+    var unlockedBadgeIDs: [String] = []
+
+    // Trilha: nó mais avançado desbloqueado
+    var highestPathNodeUnlocked: Int = 1
 }
 
 extension UserState {
