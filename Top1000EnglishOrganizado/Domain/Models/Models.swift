@@ -38,6 +38,11 @@ struct UserState: Codable {
     var dailyGoalXP: Int = 50
     var todayXP: Int = 0
 
+    // Vidas (corações) — recarregam com o tempo
+    var lives: Int = 5
+    var maxLives: Int = 5
+    var livesLastRechargeDate: Date? = nil
+
     // Notificação diária
     var notificationEnabled: Bool = false
     var notificationHour: Int = 20

@@ -70,6 +70,29 @@ final class AppStore: ObservableObject {
         Haptics.success()
     }
 
+    // MARK: - Lives (corações)
+
+    var hasLives: Bool { user.lives > 0 }
+
+    func loseLife() {
+        guard user.lives > 0 else { return }
+        user.lives -= 1
+        if user.lives == 0 {
+            NotificationCenter.default.post(name: .didRunOutOfLives, object: nil)
+        }
+        Haptics.error()
+    }
+
+    func refillLives() {
+        user.lives = user.maxLives
+        user.livesLastRechargeDate = Date()
+    }
+
+    /// Premium não perde vida
+    func loseLifeIfNeeded(isPremium: Bool) {
+        if !isPremium { loseLife() }
+    }
+
     // MARK: - Badges
 
     func unlockBadge(_ id: String) {

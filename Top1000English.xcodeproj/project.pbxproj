@@ -54,6 +54,8 @@
 		291E04D184DB4B088C0B15C7 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C2B31267CB49989CE3DC97 /* PremiumView.swift */; };
 		BB1234561234567890ABCDE1 /* CelebrationOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */; };
 		BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234551234567890ABCDE2 /* AppNotifications.swift */; };
+		CC1234561234567890ABCDE1 /* HeartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234551234567890ABCDE1 /* HeartsView.swift */; };
+		CC1234561234567890ABCDE2 /* XPPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234551234567890ABCDE2 /* XPPopupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +107,8 @@
 		71C2B31267CB49989CE3DC97 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 		BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationOverlay.swift; sourceTree = "<group>"; };
 		BB1234551234567890ABCDE2 /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
+		CC1234551234567890ABCDE1 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
+		CC1234551234567890ABCDE2 /* XPPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPPopupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,8 @@
 				70A2FFCC2F52251E00675630 /* CleanCard.swift.swift */,
 				705513E72F5521F7005B0488 /* ThinProgressBar.swift */,
 				BB1234551234567890ABCDE1 /* CelebrationOverlay.swift */,
+				CC1234551234567890ABCDE1 /* HeartsView.swift */,
+				CC1234551234567890ABCDE2 /* XPPopupView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -482,6 +488,8 @@
 				291E04D184DB4B088C0B15C7 /* PremiumView.swift in Sources */,
 				BB1234561234567890ABCDE1 /* CelebrationOverlay.swift in Sources */,
 				BB1234561234567890ABCDE2 /* AppNotifications.swift in Sources */,
+				CC1234561234567890ABCDE1 /* HeartsView.swift in Sources */,
+				CC1234561234567890ABCDE2 /* XPPopupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
