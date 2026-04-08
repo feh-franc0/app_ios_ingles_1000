@@ -41,14 +41,14 @@ struct PathNodeView: View {
                 Circle()
                     .stroke(
                         node.isLocked
-                        ? Color.gray.opacity(0.20)
-                        : LinearGradient(
+                        ? AnyShapeStyle(Color.gray.opacity(0.20))
+                        : AnyShapeStyle(LinearGradient(
                             colors: node.isCompleted
                                 ? [AppColors.brandGreen, Color(red: 0.00, green: 0.72, blue: 0.72)]
                                 : node.chapterColor,
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
-                        ),
+                        )),
                         lineWidth: node.isActive ? 4 : 2
                     )
                     .frame(width: nodeSize + 8, height: nodeSize + 8)
