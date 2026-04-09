@@ -28,6 +28,7 @@ struct RewardChestView: View {
 
     // ── Partículas ─────────────────────────────────────────────────
     @State private var particles: [ChestParticle] = []
+    @State private var screenSize: CGSize = CGSize(width: 390, height: 844)
 
     private enum ChestPhase { case idle, shaking, opening, revealed }
 
@@ -46,6 +47,10 @@ struct RewardChestView: View {
 
     var body: some View {
         ZStack {
+            // Captura dimensões reais da tela (evita UIScreen.main deprecated)
+            GeometryReader { geo in Color.clear.onAppear { screenSize = geo.size } }
+                .ignoresSafeArea()
+
             // Fundo gradiente escuro
             LinearGradient(
                 colors: [AppColors.heroNavy, AppColors.heroSlate, Color(red: 0.12, green: 0.06, blue: 0.28)],
@@ -337,8 +342,8 @@ struct RewardChestView: View {
         particles = (0..<30).map { _ in
             ChestParticle(
                 symbol: symbols.randomElement() ?? "⭐️",
-                x: UIScreen.main.bounds.width / 2,
-                y: UIScreen.main.bounds.height * 0.42,
+                x: screenSize.width / 2,
+                y: screenSize.height * 0.42,
                 size: CGFloat.random(in: 16...32),
                 opacity: 1.0,
                 rotation: Double.random(in: -180...180)
@@ -347,7 +352,7 @@ struct RewardChestView: View {
 
         for i in particles.indices {
             let dx = CGFloat.random(in: -180...180)
-            let dy = CGFloat.random(in: -260...-60)
+            let dy = CGFloat.random(in: -260 ... -60)
             withAnimation(.easeOut(duration: Double.random(in: 0.7...1.3))) {
                 particles[i].x += dx
                 particles[i].y += dy
